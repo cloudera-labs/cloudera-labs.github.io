@@ -1,0 +1,14 @@
+== Contributing to these Docs
+
+Contributions to improve the docs are welcomed at any time.  +
+We encourage you to either directly create a PR for the changes, or open an Issue on Github.
+
+In order to contribute your changes, please consider the following process::
+
+. Fork the repo to your Github account, and create a branch for your changes
+. Make your edits in your checked out copy
+. https://asciidoctor.org/#installation[Install] AsciiDoctor locally to build and check your changes
+. (Optional) https://formulae.brew.sh/formula/make[Install] Make to use the Makefile for convenient builds
+. Build the index.html root using `make` in the repository root
+. Review the docs by opening index.html in your browser
+. Create a PR to `main` with your changes when they are ready for publication
