@@ -1,0 +1,21 @@
+= Documentation for Cloudera-Labs
+:doctype: book
+:docinfo: shared
+:data-uri:
+:title: Documentation for Cloudera-Labs
+:toc: left
+:toclevels: 2
+:sectanchors:
+:sectlinks:
+:sectnums:
+
+toc::[]
+
+== Introduction
+
+These docs are for Cloudera-Labs on github.io  +
+They are intended provide guidance for the repositories of DevOps tools, Workshops, Demos, and other artefacts published in this Github Organization from time to time.
+
+
+
+include::docs/contributing.adoc[Contributing to these Docs]
