@@ -1,0 +1,30 @@
+name: Publish Docs on main
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  adoc_build:
+    runs-on: ubuntu-latest
+    name: Build Github Pages publication with AsciiDoctor
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Get build container
+      id: adocbuild
+      uses: avattathil/asciidoctor-action@master
+      with:
+          program: "asciidoctor -D pages --backend=html5 -o index.html README.adoc"
+
+    - name: Deploy docs to ghpages
+      uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.ref == 'refs/heads/main' }}
+      with:
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        publish_dir: ./pages/
