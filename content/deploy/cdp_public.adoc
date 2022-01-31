@@ -1,0 +1,82 @@
+=== CDP Public Deployments
+
+==== Definitions for CDP Public
+
+We aim to keep a full dictionary of all the yaml structure in the https://github.com/cloudera-labs/cloudera.exe/blob/main/docs/configuration.yml[cloudera.exe docs], there are literally hundreds of parameters that are defaulted and may be overridden, so in this section we will attempt to explain the key values to achieve common goals.
+
+Generally the structure is in dot notation within a collected set of default files, one to each role. If you can find the parameter you are interested in, do a global search within that role (preferably in your IDE, but also in the repo) and you will likely be able to quickly backtrace how it was generated and find the default.
+
+Defaults are usually in the role which requires them, and will otherwise be moved up to cloudera.exe.common if more than one role needs to use the same values. For example, we create the subnets in ‘infra’, but need to supply them to the ’platform’ and ‘runtime’ roles as well, so they are sourced from the common defaults.
+
+As another example, the key ‘infra.teardown.delete_data’ occurs within the Infrastructure defaults in the cloudera.exe.infra role, and it is defaulted to False. If you set it to True, when you run a teardown cloudera-deploy will also clean the targeted storage. You include it in your definition by converting it to yaml:
+
+[source,yaml]
+infra:
+  teardown:
+    delete_data: yes
+
+The second structure we typically use is switched pickers contained in Ansible vars within roles. This allows us to set defaults for each infrastructure provider and various types of things we might need, such as virtual machine sizes and disk types. A good example of this may be found in the https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/vars/main.yml[cloudera.exe.infrastructure] role. Again, global searching for the parameters will show you how they are used within the deployment structure.
+
+What is important to note here is that we attempt to allow the user to define the least amount of information necessary to produce the target Deployment, something sometimes refered to as Goal Based Declarative Deployment. You can set as many overrides as you like, but you then take on responsibility for knowing how they will interact, whereas if you use the defaults they are already known to be best-practice.
+
+==== Infrastructure
+
+Controlled under the ‘infra’ key in all the underlying cloud infrastructure services you could need, most defaults are either in the https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/common/defaults/main.yml[cloudera.exe.common] or https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/defaults/main.yml[cloudera.exe.infra] defaults files. It is worth examining these defaults if you are interested in which subnet CIDRs, storage types, and other values are used in deployment.
+
+If you include the `infra` key in your definition without anything else, cloudera-deploy will create a base set of infrastructure (network, storage, security groups, etc.) on your chosen provider when you use one of the deployment triggering tags.
+
+.e.g. To create Infrastructure for CDP Public on Azure:
+[source,yaml]
+infra_type: azure
+infra:
+
+==== CDP Public Environment & Datalake
+
+This is the core CDP Public ‘platform’ to which the `plat` Ansible Tag refers, and is controlled by the top-level yaml key `env`. Apart from the common defaults mentioned earlier, there are platform specific defaults as well in https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/platform/defaults/main.yml[cloudera.exe.platform].
+
+As with other top level keys, if you include `env:` on its own, then cloudera-deploy will generate an infrastructure suitable for CDP Public and Private based on your Definition, Profile, and other defaults.
+
+There are a large number of defaults in this role, you are advised to scroll through the defaults file above - we resist listing them all here to avoid additional maintenance burden.
+
+.e.g. To create a CDP Public Infrastructure on GCP with a Datalake pinned to a particular version:
+[source,yaml]
+infra_type: gcp
+env:
+  datalake:
+    version: 7.2.12
+
+==== Datahubs
+
+`datahub:` is the next key we look at, and the first that requires some child keys to work.
+
+As with env, if you have datahub in your definition file cloudera-deploy will ensure that the requisite Infrastructure and CDP Public Platform are deployed.
+
+For datahubs, you are required to submit a list of configurations, one for each datahub you want to be present. You have three options; you may give the name of a definition to deploy it from defaults, you may refer to a jinja template, or you may explicitly set the necessary values.
+
+.e.g. To Create an OpDB Datahub, and a Kafka Datahub on AWS (default):
+
+[source,yaml]
+datahub:
+  definitions:
+    - definition: ‘Operational Database with SQL for AWS’
+      suffix: cod-dhub
+    - include: "datahub_streams_messaging_light.j2"
+
+===== dw
+You can include the top-level key `dw:` in your definition to deploy a default CDW cluster
+
+More functionality for this service is coming soon
+
+===== ml
+CML has a nice https://github.com/cloudera-labs/cloudera-deploy/blob/main/examples/cml/definition.yml[example definition], which is again a top level key `ml:` with a child key ‘definitions’ which is a list of workspaces to create, either from defaults or with specific parameters.
+
+If you include ‘ml’ without any child keys a single default workspace will be created.
+
+===== df
+Like CML, CDF also has an https://github.com/cloudera-labs/cloudera-deploy/blob/main/examples/cdf/definition.yml[example definition] which works in a similar fashion.
+
+===== de
+Same as above, here is the https://github.com/cloudera-labs/cloudera-deploy/blob/main/examples/cde/definition.yml[example definition].
+
+===== opdb
+Same as above, the example is coming soon.

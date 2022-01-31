@@ -1,0 +1,40 @@
+=== Dynamic Inventory
+
+The Dynamic Inventory implementation in cloudera-deploy is primarily intended as an aid to automated testing or trial deployments. It allows the user to provide a template inventory file, which is then converted into a number of VMs on the infra platform, which are in turn used within the same run as inventory for the CDP Private Cloud Base deployment, without any further interaction from the user.
+
+Note that this is not necessarily a typical approach, where a user may prefer to create infrastructure using Terraform and then supply Ansible with a static inventory file. Or a user may wish to use a traditional Ansible dynamic inventory plugin. This functionality within Cloudera-Deploy is designed to make it abundantly easy for users new to these technologies to get going with minimal initial learning.
+
+Presently this feature is only implemented for AWS, though extending each of the code sections for any other infrastructure provider is quite possible if the process below is understood. It is one of the more complex meta-processes in cloudera-deploy simply because it touches on several roles and collections in order to avoid repetition and each segment of the work involved being executed with other similar workflows.
+
+The process is deliberately broken up into sections with artefact files at key points to allow the user to substitute their own process or inventory at any given stage. It also makes testing changes a lot easier, and it may then be replaced using Terraform or some other provider at your convenience.
+
+NOTE: Dynamic Inventory uses AMIs from the AWS Marketplace, it is necessary for someone to have subscribed to the selected image at least once within the account for it to work. If you are the first person to run this in an account you will get an error and a link to activate the subscription, then you can re-run to complete the deployment. Yay idempotence, as this can only be done in the GUI.
+
+.The meta structure specific to this feature is as follows:
+
+. Include an inventory_template.ini in your Definition path, which describes the shape of the infrastructure required for your CDP Base Cluster.
+. Use a supported infra provider, currently this is only AWS
+. When the main.yml playbook is run, the cloudera-deploy/init role will pick up and process the template to determine validity and the number of hosts needed for the deployment.
+.. Note that the name of the template file may be modified
+.. Then existence of the template file is checked
+.. We then check if a static inventory has been supplied with the -i switch, and do not process the dynamic inventory if it is set
+.. If the above condition is satisfied, we then use the Ansible ‘refresh inventory’ command with the template included in the inventory dir, this is a tasklist called ‘refresh_inventory’.
+.. Note that this is a minor hack as traditional Ansible usage would recommend against dynamic inventory refresh mid run, but we use it here in the name of NUX.
+.. We then check some simple compliance details within the template, and if it passes we count the number of hosts required in the template and add it to the ‘globals’ variables as ‘vm.count’, which is in turn used later to generate the required host infrastructure.
+.. We then remove the dynamic inventory template from the Ansible Inventory, and refresh the inventory again.
+.. Note: We use this process because Ansible already has the logic to process the inventory template and give us a host count from it.
+. Next, the main.yml playbook calls on the cloud.yml playbook, which in turn calls the sequence role in the cloudera.exe Collection to run all of the Public Cloud tasks for creating the necessary infrastructure for the deployment.
+.. The defaults used by cloudera.exe for creating the Dynamic Inventory are https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/defaults/main.yml[here in the role defaults]
+.. Note: that `globals.vm.count` from earlier is consumed here, along with naming, ssh, storage, etc. pieces.
+.. Additional defaults are set from a https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/vars/main.yml[vars] file in this role, where we hold pickers for things like storage, vm, OS type, etc. particular to that Infrastructure provider. All of which may be overridden.
+.. Initialization of necessary information is done in initialize_setup_aws in the same role, here we get the correct AMI to use for VM deployment, and then the host connectivity information Ansible needs for inventory population
+.. Then in the main setup.yml file within this infrastructure role, we run the infra provider-specific ‘compute’ task list
+... The compute task list first ensures the correct number of VMs is created with the given parameters. This task does a lot of work for us using the Infra provider’s own Ansible modules.
+... It then prepares the `$$infra__dynamic_inventory_host_entries$$` variable with a list of the necessary connection information for each new host in a format that Ansible understands, which is a combination of the generic connector information in `$$infra__dynamic_inventory_connectors$$` (ansible_user, ssh private key file) and the VM-specific information (private FQDN as node name, Public FQDN as ansible_host)
++
+NOTE: This connectivity information is very important for Ansible to build clusters correctly on AWS because AWS uses a reverse-proxy for DNS. Other infra providers would probably only require a much simpler set of connectivity information.
+. Next, the cloud.yml playbook will run a post-processing check if dynamic inventory VMs have been created by checking the `$$infra__dynamic_inventory_host_entries$$` variable, and if it and the template are present it will merge them into a `static_inventory.ini` artefact in the Definition Directory using the cloudera-deploy/persist_dynamic_inventory tasklist. This artifact is later used by the cluster.yml playbook.
++
+NOTE:  This essentially picks up the connection entry for each host and replaces the template entry on a 1:1 basis, look at the example above to see how it works.
+. Back in the initial main.yml, we check if a static inventory artefact is presented. If the user created their own, or used the preceding dynamic inventory process to generate a static inventory artefact, this process is then triggered, thus allowing both options. This once again uses the ‘refesh_inventory’ tasklist to inject the static_inventory artefact (regardless of how it was created) into the Ansible Inventory ready for a Cluster deployment.
+. The cluster.yml playbook is then called, which will use whatever inventory is present to run the cluster deployment according to the rest of the configuration and tags presented. In this case it will pick up the static inventory artefact, produced by thi dynamic inventory process, and deploy the cluster.

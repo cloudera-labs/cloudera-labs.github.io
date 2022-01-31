@@ -1,0 +1,75 @@
+== Cloudera Deploy
+_Ansible Automation for Cloudera Products_  +
+_AKA: Cloudera AutoProv | Ansible Foundry | Cloudera Playbooks_
+
+=== Introduction
+Cloudera Deploy is the name of the reference implementation of Ansible for automating Cloudera Products.
+
+For most users, https://github.com/cloudera-labs/cloudera-deploy[Cloudera-Deploy] is the entrypoint and only component they need interact with, but underneath it there is an extensible framework of components for handling various scenarios for power-users.
+
+This framework is generally called the Cloudera Ansible Foundry, and it wraps software dependencies, automation code, examples, and documentation into a single family.
+
+It further provides a consistent and portable toolkit for working in Python, Bash, Terraform, various CLIs, language clients, ad-hoc commands, and other commonly used tools in the Hybrid Cloud ecosystem.
+
+To that end, you can use Cloudera-Deploy itself directly, or use it as a starting point for your own implementation, or simply use the components within for your own purposes.
+
+=== Use Cases
+==== Simple Use Cases
+These simple use cases can be run from the Cloudera-Deploy Quickstart without requiring additional skills in advance beyond use of cmdline, docker, and cloud credentials
+
+* Deploy Reference Architectures for CDP Public on AWS, GCP, or Azure
+* Deploying from OSX, Windows10, or Linux machines
+* Leverage Ansible or Terraform for Cloud Infrastructure
+* Deploy CDP Base clusters to most supported OS targets
+* Deploy Applications on various CDP implementations
+* Teardown and other lifecycling tasks
+
+==== Intermediate Use Cases
+In these cases, we expect that you are a more experienced DevOps user with particular goals in mind and at a good working knowledge of the technologies in play
+
+* Deploy CDP Private Cloud on a Kubernetes Variant
+* Deploy Applications across multiple CDP Hybrid Cloud Environments
+* Integrate a 3rd party component into the Framework
+* Handle partial deployments or partial teardowns
+* Automate deployment to adopted infrastructure
+* Extend the Ansible Collections to handle additional cases
+
+==== Understanding the Skills Gap
+
+We recognise there is a significant jump in the skills and knowledge required to go from using the pre-configured push-button examples in the 'Simple' section to more complex cases the 'Intermediate' section and beyond.
+
+There are several good introductory courses online for Ansible and Terraform use in Hybrid Cloud Architectures. Cloudera also offers a training program tailored to these tools to interested Customers and Partners.
+
+You can also reach out to your Cloudera contacts for assistance in these deployments at any time.
+
+=== Licensing and Restrictions
+It's all Open Source
+
+=== Getting Started for Different Experience Levels
+Cloudera-Deploy is designed for use both internally and externally by Cloudera Engineering, Testing, Education, Support, Field, Sales, Marketing and other staff, but also the same code and artefacts are used by Customers, Partners, Resellers, and our Community.
+
+As such, we have set it up so a new user can get started in as little as 3 steps, while not limiting Power Users from leveraging the full suite of capabilities.
+
+==== New to Automation
+Using Cloudera-Deploy without modifying it only requires a couple of steps and some cloud credentials.
+
+If this is your first time, we suggest briefly reading the link:overview.adoc[Overview] and then running the Cloudera-Deploy https://github.com/cloudera-labs/cloudera-deploy/blob/main/readme.adoc[Quickstart] using one of the prebuilt Definitions before diving in further.
+
+==== Create your own Definitions
+Crafting Definitions is just editing Yaml to declare what the Deployment should look like, and allowing Cloudera-Deploy to interpret and produce what you have described.
+
+Once you have worked out how to Run a basic Deployment via the Quickstart and Overview, you may wish to customise it to meet your requirements - this is explained in the <<definitions.adoc#_crafting_definitions,Crafting Definitions>> section, though reading the rest of these Docs  and examining the other Definition examples may also be helpful.
+
+==== Create your own Playbooks
+Creating your own Playbooks requires a working understanding of authoring Ansible tasks and how to use Modules and Roles from Ansible Collections. It goes a step beyond editing yaml declarations into understanding the sequences of steps necessary to achieve a given outcome in a hopefully robust manner.
+
+We will soon be publishing more examples of Application Playbooks on top of Cloudera-Deploy, but you can review the Playbooks already included as a starting point.
+
+We suggest you start by fully reading this documentation paying particular attention to the Architecture, then working through the tasks from main.yml in Cloudera-Deploy and working down the various Ansible Include tasks that are relevant to your usages.
+
+At this level of development you would expect to be a proficient developer at least in Ansible and probably Python, and well versed in
+
+==== Using these Playbooks and Collections as the basis for Development
+If you are familiar with Ansible and Cloudera Products, and are considering adding Ansible modules or roles to the Collections, then you may wish to follow the <<developers.adoc#_detailed_setup_for_developers,Developer Setup>>  to fork and checkout the component repos so you can make (and perhaps contribute back) your own changes.
+
+include::overview.adoc[]

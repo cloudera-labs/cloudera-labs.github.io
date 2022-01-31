@@ -1,0 +1,95 @@
+=== Architecture
+
+In this section of the documentation we will attempt to collate answers to commonly asked questions about the Why and How things are built the way they are.
+
+In general, we try to include comments directly in the code to explain why some particular thing may be done a particular way. Please raise an https://github.com/cloudera-labs/cloudera-labs.github.io/issues[Issue] if there is some step in the tasks which you want more explanation on, or if you want some meta-process to have an explanation in these docs.
+
+==== Key Workflow Explanations
+
+Many of these Architecture notes explain the sequence of steps in various parts of the codebase. It is not necessary to understand these processes in order to use Cloudera-Deploy for Deployments, but if you want to make your own processes they may be quite informative.
+
+===== quickstart.sh
+
+Quickstart.sh is provided in the root of the Cloudera-Deploy repository, itself being the reference entrypoint to the tooling. It is intended to prepare and launch you into a shell running inside the Docker execution container where all the necessary software is already prepared for.
+
+You'll know you are in this custom shell by the Orange coloured `cldr <version> #>` prompt.
+
+.When you invoke quickstart.sh in Cloudera-Deploy, here is the general sequence of steps
+
+. It determines the parent directory of quickstart.sh, and sets that as the Project Directory unless the user has passed in a variable for this purpose
+. Checks if Docker is running
+. Runs ‘docker pull’ against the image if there is an updated image available
+. Creates the default local User Profile mount paths on the local machine if not present
+. Creates a default Cloudera Deploy Profile in the default path if not present
+. Checks if various development helper options are set:
+.. If `CLDR_COLLECTION_PATH` is set, that path is put into the ANSIBLE_COLLECTIONS_PATH, and the user is instructed to use /runner/project as the base path instead of /opt/
+.. If `CLDR_PYTHON_PATH` is set, then that path is added to the PYTHON_PATH in the internal container
+. Checks if ssh-agent and ssh-auth-sock are running / available
+. Then:
+.. If the Runner container is present and running, a new bash session is started
+.. If the Runner container is present but stopped, it is removed
+.. If the Runner container is not present or removed by the previous step, a new one is instantiated and a bash session started
+. The current release version of cloudera-deploy is cloned into /opt/cloudera-deploy alongside the other Ansible Collection pieces
+. The user is given several notices and dropped into an orange coloured bash prompt in the /runner directory
+
+IMPORTANT: The only way to change the /runner/project directory mounted into the container is to stop the container and rerun the quickstart with a different path as the argument.
+
+NOTE: The Ansible Log is pointed at ~/.config/cloudera-deploy/log by the quickstart container launcher
+
+==== Main Playbook in Cloudera-Deploy
+
+The main.yml Playbook is also in the root of Cloudera-Deploy and is intended as the entrypoint that you would call with the `ansible-playbook` command in the orange bash prompt we provide you in the Quickstart.
+
+IMPORTANT: If you invoke Ansible in a directory other than /runner within cldr-runner, behavior will change as Ansible checks for particular directories relative to the execution path and uses that to find some defaults. Yes this is often annoying, they seem resistant to changing it.
+
+.The main Playbook is generally invoked from one of two locations:
+
+*/opt/cloudera-deploy/main.yml*  +
+This is the current release version of Cloudera-Deploy baked into the Runner itself
+
+*/runner/project/cloudera-deploy/main.yml*  +
+If you have launched quickstart.sh following the usual process, then this is the version of Cloudera-Deploy you have checked out from Github on your local machine, as your Project directory is mounted to /runner/project, and thus cloudera-deploy will be in that project directory.
+
+If you are editing the Playbooks or Collections, you should launch from /runner/project to pick up your changes.
+
+.Here is the general sequence of steps:
+
+. Ansible initialisation
+.. /runner/env/envvars are loaded
+.. Any Ansible Inventory in /runner/inventory is read
+. The init Role is run
+.. Run Metadata is immediately logged
+.. The Definition Path and Files are validated
+.. The User Profile is Included, making it the lowest in Definition precedence
+.. We validate that an Admin Password has been supplied
+.. We resolve the presence and controls around definition.yml and cluster.yml
+.. definition.yml is Included, making it the second in precedence
+.. The selected cluster.yml is included (if present), making it third and highest in precedence for Definition files
+.. ‘globals’ is then generated from general top level facts found in files Included thus far
+.. ‘globals’ is then updated by any values explicitly set as ‘globals’ from definition.yml, making this the highest definition authority only trumped by extra vars following the usual Ansible hierarchy
+.. The Namespace is then validated and set
+*** Note that this is not a namespace in the sense of Kubernetes, but the name_prefix that is used for all resources generated by Cloudera-Deploy
+.. SSH keys are then validated, if necessary created, and then set
+.. If a Dynamic Inventory is found, it is then validated and parsed
+.. If the Download Mirror has been requested and requirements are met, the prepare_download_mirror Role is then Included
+.. Temp directories, various Environment Variables for the Run, and other details are finally set before continuing
+. The Cloud Playbook is then imported
+.. If Cloud actions are indicated in this Run, the Role cloudera.exe.sequence is imported
+.. Any Dynamic Inventory result is persisted to Static Inventory artefact for later use
+.. If the Download Mirror is in Play, it is then populated and the cached files then persisted to the Download Mirror cache file for later use
+. If a Teardown has been requested, the clean_dynamic_inventory Role is run
+. Then the preparation steps for a Cluster deployment are run if a Cluster definition was found during init’s parsing of the Definition
+.. The static inventory artefact is loaded, if found (including when just created)
+.. The Download Mirror URLs are injected from the cache artefact, if requested
+.. Necessary facts for the Cluster deployment are distributed to the Inventory based on the Run thus far
+. If a Cluster is defined, the Cluster Playbook is then imported
+. The Application Playbook is imported from the Definition Directory for any post-run tasks
+
+==== Cloud Deployment Sequencing and Options
+
+TBA
+
+==== Cluster Deployment Sequencing and Options
+
+TBA
+
