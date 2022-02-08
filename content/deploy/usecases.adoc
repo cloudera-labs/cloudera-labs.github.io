@@ -1,0 +1,24 @@
+[[cdUseCases]]
+=== Use Cases
+==== Simple Use Cases
+These simple use cases can be run from the Cloudera-Deploy Quickstart without requiring additional skills in advance beyond use of cmdline, docker, and cloud credentials
+
+* Deploy Reference Architectures for CDP Public on AWS, GCP, or Azure
+* Deploying from OSX, Windows10, or Linux machines
+* Leverage Ansible or Terraform for Cloud Infrastructure
+* Deploy CDP Base clusters to most supported OS targets
+* Deploy Applications on various CDP implementations
+* Teardown and other lifecycling tasks
+
+==== Intermediate Use Cases
+In these cases, we expect that you are a more experienced DevOps user with particular goals in mind and at a good working knowledge of the technologies in play
+
+* Deploy CDP Private Cloud on a Kubernetes Variant
+* Deploy Applications across multiple CDP Hybrid Cloud Environments
+* Integrate a 3rd party component into the Framework
+* Create a mirror of archive.cloudera.com or custom offline repo of parcels
+* Use the framework within Ansible Tower, or via CICD integration
+* Handle partial deployments or partial teardowns using run levels
+* Automate deployment to adopted infrastructure
+* Extend the Ansible Collections to handle additional cases
+* Force remove cloud infrastructure within a given namespace

@@ -1,3 +1,4 @@
+[[cdDevelopersSetup]]
 === Detailed Setup for Developers
 
 This document is structured with suggested sequences of steps at the top, and the various processes you need underneath. Use the suggested sequences or create your own as appropriate.
@@ -60,7 +61,7 @@ NOTE: It is easiest to test your credentials within the Runner, as the dependenc
 ====== Get the Repo
 . Open a terminal and switch to your preferred projects directory
 [source,bash]
-cd ~/PycharmProjects
+cd ~/Projects
 
 . Clone or update the repo
 [source,bash]
@@ -86,7 +87,7 @@ export provider=gcp
 
 .. Default is all of them, but it’s a ~2.3GB image download
 . Run the quickstart script in the Repo you just cloned above
-** Option A: Run the quickstart bare, it will mount the parent directory of the cloudera-deploy repo, which will be your code directory if you followed the directions above, e.g. `~/PycharmProjects`
+** Option A: Run the quickstart bare, it will mount the parent directory of the cloudera-deploy repo, which will be your code directory if you followed the directions above, e.g. `~/Projects`
 [source,bash]
 ./quickstart.sh
 
@@ -415,8 +416,8 @@ chmod +x ./run_project.sh
 chmod +x ./build.sh
 
 . Ensure xref:_setup_docker[Docker] is running on your host machine
-. Copy the absolute path to the root of your code projects directory that contains the projects you want to execute within the container environment, e.g. `/Users/dchaffelson/PycharmProjects`
-. Launch the runner targeting the project you want to execute by passing the absolute path as the argument to the run_project.sh script, e.g. `./run_project.sh /Users/dchaffelson/PycharmProjects`
+. Copy the absolute path to the root of your code projects directory that contains the projects you want to execute within the container environment, e.g. `/Users/dchaffelson/Projects`
+. Launch the runner targeting the project you want to execute by passing the absolute path as the argument to the run_project.sh script, e.g. `./run_project.sh /Users/dchaffelson/Projects`
 ** The script will build the container image from the latest release bits, this will take a few minutes the first time, the resulting image will be ~2GB
 ** You will then be dropped into a shell session in directory /runner in the container environment. Your Project will be mounted at /runner/project. You will have all the currently known dependencies for working with CDP pre-installed with conflicts resolved
 ** Note that the container must be stopped for a new project directory to be mounted to a new build, if there is already a container of the same name running you will just get a new shell session in it
@@ -434,7 +435,7 @@ This step is setting up the to Develop the Collections themselves.
 
 This will guide you through setting up a directory structure convenient for developing and executing the Collections within the Runner, or other execution environments.
 
-You only need to do this if you want to contribute directly to the Collections or Python clients underlying the interactions with Cloudera products - you do not need to go through this setup process if you simply wish to use cloudera-deploy with your own yaml Definitions, as the Collections and Clients should not need to be modified in those cases and are already pre-installed in the Runner.
+You only need to do this if you want to contribute directly to the Collections or Python clients underlying the interactions with Cloudera products - you do not need to go through this setup process if you simply wish to use cloudera-deploy with your own YAML Definitions, as the Collections and Clients should not need to be modified in those cases and are already pre-installed in the Runner.
 
 .Why do it this way:
 Ansible expects to find collections within a path ‘collections/ansible_collections’ on a series of predefined or default paths within your environment. By default, the Runner has this Path variable prepopulated in a helpful fashion to the pre-installed Collections, this process guides you through modifying that to point at your own versions which you have to maintain yourself.
@@ -447,11 +448,11 @@ For development purposes, creating this path in your favourite coding Projects d
 cd cloudera-deploy && mkdir -p ../ansible_dev/collections/ansible_collections/cloudera
 
 ** cloudera is the base namespace of our collection
-** Your Projects directory should also have your Ansible Playbooks and other codebase in it, so that you can mount the root of it to the Runner and have access to all your codebase, e.g. `~/PycharmProjects/cloudera-deploy` should be where Cloudera-Deploy is located
+** Your Projects directory should also have your Ansible Playbooks and other codebase in it, so that you can mount the root of it to the Runner and have access to all your codebase, e.g. `~/Projects/cloudera-deploy` should be where Cloudera-Deploy is located
 . Fork each of the sub-collections and cdpy into your personal github, and replace <myAccount> with your actual github account below
 . Checkout each of the sub-collections into this folder, e.g.:
 [source, bash]
-cd ~/PycharmProjects
+cd ~/Projects
 git clone -b devel https://github.com/<myAccount>/cdpy.git cdpy
 cd ansible_dev/collections/ansible_collections/cloudera
 git clone -b devel https://github.com/<myAccount>/cloudera.exe.git exe
@@ -463,12 +464,12 @@ Each of the subcollections should be on the ‘devel’ branch so you can PR the
 +
 . Your Code Project directory should now look something like this:
 [source,bash]
-/PycharmProjects/ansible_dev/collections/ansible_collections/cloudera
-/PycharmProjects/ansible_dev/collections/ansible_collections/cloudera/exe
-/PycharmProjects/ansible_dev/collections/ansible_collections/cloudera/cloud
-/PycharmProjects/ansible_dev/collections/ansible_collections/cloudera/cluster
-/PycharmProjects/cdpy
-/PycharmProjects/cloudera-deploy
+/Projects/ansible_dev/collections/ansible_collections/cloudera
+/Projects/ansible_dev/collections/ansible_collections/cloudera/exe
+/Projects/ansible_dev/collections/ansible_collections/cloudera/cloud
+/Projects/ansible_dev/collections/ansible_collections/cloudera/cluster
+/Projects/cdpy
+/Projects/cloudera-deploy
 . Before you invoke quickstart.sh, set the environment variable below to tell Ansible where to find your code inside your execution environment once it is mounted in the Container at /runner/project:
 [source, bash]
 export CLDR_COLLECTION_PATH="ansible_dev/collections"
@@ -650,6 +651,16 @@ Run the following command to activate the ssh-agent:
 ----
 eval `ssh-agent -s`
 ----
+
+If that command doesn't work, try
+[bash,source]
+----
+eval "$(ssh-agent)"
+----
+
+.docker: Error response from daemon: invalid mount config for type "bind": field Source must not be empty.
+
+Probably your SSH_AUTH_SOCK is not populated from the ssh-agent. Same fix as above.
 
 .The path /private/tmp/com.apple.launchd.[some random sting]/Listeners is not shared from the host and is not known to Docker.
 

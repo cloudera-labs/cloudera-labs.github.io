@@ -1,3 +1,4 @@
+[[Contributing]]
 == Contributing to these Docs
 
 Contributions to improve the docs are welcomed at any time.  +

@@ -16,8 +16,8 @@ These docs are for Cloudera-Labs on github.io, and supplementary to the official
 
 They are intended to provide guidance for the repositories of DevOps tools, Workshops, Demos, and other artefacts published in this Github Organization from time to time.
 
-If you find a mistake in these docs, please raise an https://github.com/cloudera-labs/cloudera-labs.github.io/issues[Issue] on Github, consider using our xref:_contributing_to_these_docs[Contribution Guide], or contact a representative of Cloudera for assistance.
+If you find a mistake in these docs, please raise an https://github.com/cloudera-labs/cloudera-labs.github.io/issues[Issue] on Github, consider using our xref:Contributing[Contribution Guide], or contact a representative of Cloudera for assistance.
 
-include::content/deploy/intro.adoc[ClouderaDeploy]
+include::content/deploy/main.adoc[]
 
-include::content/contributing.adoc[Contributing]
+include::content/contributing.adoc[]

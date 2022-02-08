@@ -1,0 +1,97 @@
+[[cdDeployments]]
+=== Deployments Reference
+
+A ‘Definition’ is a directory containing one or more files, and may contain additional assets required by the user. The intention is that a single directory may contain all the necessary components to describe a Deployment suitable for configuration-as-code practices using version control.
+
+This also means that pre-defined Definitions are easy to create, and we include several for new users. See explanations in the sections for xref:cdCDPPublic[CDP Public Cloud] and xref:cdPrivate[CDP Private Cloud].
+
+==== Definition Structure
+===== The definition_path
+
+Cloudera-Deploy will recognise and compose together several files during Initialization in order to determine what should be done in a run.
+
+The files have defaults set in `cloudera-deploy/roles/cloudera_deploy/defaults/main.yml` and the various Collections, which may be overridden by the Definition or with extra vars at runtime.
+
+The Definition directory also acts as a working directory during the run, and is the location where Definition-specific artefacts, such as dynamic inventory files, will be written back to. This differs from persistent records for the Runner like Logs and Profiles which are kept in `~/.config/cloudera-deploy` and thus written back to the Filesystem hosting the Runner.
+
+As such, the `definition_path` extra var is one of the few mandatory values required by the Playbook, and one of the first things checked for in a Run.
+
+It is expected that the user will have any persistent information from their profile, like ssh keys and cloud credentials and logs, mounted via bash expansion in `~/`, and any Code and Projects mounted for persistence to /runner/project. Pretty much all other areas of the Runner are presumed to be ephemeral storage.
+
+===== Explaining the various Definition Files and Profiles
+
+As said above, Cloudera-Deploy will read in and compose the facts for the run from a set of files found in the Definition path, then from an optional Profile file, and then from the Collections which hold defaults for the different kinds of deployments available.
+
+The various files and their override values are set during https://github.com/cloudera-labs/cloudera-deploy/blob/main/roles/cloudera_deploy/tasks/init.yml[cloudera-deploy initialization]. We pull these values into multiple different files to give the user control of composing their deployments if desired - you may wish to recombine different profiles, definitions, and cluster specs according to your needs, but you can also just glob it all into a single `definition.yaml` file in most cases if you want.
+
+The Profile is drawn from the directory `~/.config/cloudera-deploy/profiles`. The default file collected is simply called `default` in this directory, and is automatically created from the `profile.yml` template in the cloudera-deploy repo.
+
+Then the user may choose to put all the rest of their definition details into the `definition.yml` file in their `definition_path`, they may also choose to split it across `definition.yml` and `cluster.yml`, for backwards compatibility with legacy Cloudera Playbooks.
+
+The dynamic_inventory files are explained in a later section.
+
+===== Required Definition Files
+There are 2 files that must be present in the definition path:
+
+* A Definition for the deployment, usually cluster.yml or definition.yml
+* a post-run playbook, with the name application.yml
+
+You may optionally supply other files recognised by the Definition parser, such as an inventory template or static ini file.
+
+.cluster.yml or definition.yml, or split between both
+This file contains the variables that define:
+
+* The CDP Cluster(s) - which services, service configuration parameters, host templates & Role allocation, external databases, runtime repositories, security
+* Cloudera Manager - cm repository, management services, CM configs
+* Host configurations - e.g. values set via CM -> All Hosts -> Configuration
+* Auth backends - e.g. ldap/ad
+* Any other vars required for the Plays in-scope (e.g. kdc, haproxy settings)
+
+.Application.yml
+Used to describe additional deployment steps. Although this file must be present, it doesn’t have to do anything and you can simply copy the sample no-op Playbook from the examples/sandbox in Cloudera-Deploy.
+
+====== Your Profile file(s)
+
+If you take a look in the Profile.yml Template, you will see it is a collection of keys in YAML format, these are the keys most commonly personalised to a given user, such as passwords and naming prefixes.
+
+The main cloudera-deploy https://github.com/cloudera-labs/cloudera-deploy/blob/main/readme.adoc[readme] does a good job of explaining the different values in this file, and note that you can also set these keys in your definition or cluster files if you wish, but be aware of precedence if you have them set in multiple files.
+
+====== definition.yml file
+
+definition.yml is the main file the user is anticipated to modify in order to define what their Deployment should look like. This is then combined with the Ansible tags used at runtime in order to produce the expected result.
+
+For example, you could define a CML deployment in your definition.yml but use the ‘infra’ tag with Ansible to only create the Infrastructure dependencies for CML, but not actually deploy CML itself. This gives the user a great deal of flexibility and operational control.
+
+If you wish you may set all of your YAML into the definition.yml file and skip profile, cluster, etc. This may be useful for CICD deployments.
+
+====== cluster.yml file
+
+Although cluster.yml is usually provided externally to the Definition, it can also be included in the definition for two main reasons:
+
+Firstly, the v2 edition of the Cloudera Playbooks expects a cluster.yml definition file, so this provides convenient backwards compatibility and a point of comfortable continuity for existing users migrating to the v3 / Collections based approach.
+
+Secondarily, certain complex cluster definitions typically used with the v2 playbook depended upon advanced Ansible lazy-evaluation tricks in order to replace values within the configs, such as hostnames and service descriptors mid-deployment. cluster.yml is specifically lazy evaluated (unlike definition.yml, which is evaluated almost immediately) to allow these deployments to continue to work. We do not expect new users to need these tricks, so this feature is primarily for backwards compatibility.
+
+There is a basic cluster definition included in the cloudera-deploy https://github.com/cloudera-labs/cloudera-deploy/blob/main/roles/cloudera_deploy/defaults/basic_cluster.yml[defaults], you may instruct it to be included by setting the value `use_default_cluster_definition: yes` in your definition.yml, or you could copy it into your `definition.yml` or `cluster.yml` file in your Definition directory and then use it as a starting point to get going with customising your deployment.
+
+====== Static_inventory.ini
+
+You may also include a typical Ansible static inventory file within the Definition to be automatically loaded and used for the run, this is in addition to any inventory files in the default Ansible Inventory directory (which are typically empty).
+
+There is an example of a Static Inventory https://github.com/cloudera-labs/cloudera-deploy/blob/main/examples/sandbox/inventory_static.example[here], it is notable that the Dynamic Inventory option will generate a static inventory file for you as a part of the process, and tear it down along with the rest of the infrastructure if you use the ‘teardown’ tag.
+
+You may also wish to use traditional Ansible dynamic inventory implementations, or the built-in dynamic inventory generator for AWS documented xref:cdDynamicInventory[Dynamic Inventory]
+
+==== Crafting your Definition
+
+In all simple cases, Cloudera-Deploy aims to have defaults for practically everything but your administrator password, allowing you to then only override any parameters that provide a specific change you want.
+
+We recommend, but do not require, that you also set the values in your default user profile as explained in the readme, because otherwise your infrastructure is unlikely to be uniquely tagged and named within the cloud infrastructure account (assuming you are using these features).
+
+However, once you have set those defaults, you will likely want to describe the actual deployment you require.
+
+There are several examples given within cloudera-deploy, such as the Sandbox, a CML Workshop, or all the Cloudera DataFlow services. These are all primarily public cloud examples, although the Sandbox does include a basic private cloud cluster as well.
+
+Generally, CDP Public cloud parameters follow a simple structure of some top-level key triggering a particular component to be deployed, along with whatever dependencies it needs, and then any child keys under that top-level key controlling some override of some default. These keys are explained in link:cdp_public.adoc[CDP Public Definition Keys].
+
+Generally, CDP Private Cloud is a more haphazard structure, simply because it is extremely configurable with nearly a decade of history and backwards compatibility, and therefore trying to constrain it to a pretty structure causes more problems than it fixes within the automation.
