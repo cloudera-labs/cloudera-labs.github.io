@@ -1,0 +1,7 @@
+== Goal-oriented Guides
+
+include::developers.adoc[]
+
+include::cdp_private.adoc[]
+
+include::contributing.adoc[]

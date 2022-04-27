@@ -1,28 +1,28 @@
 [[cdSimpleDefinitions]]
-==== Example Definitions
+=== Example Definitions
 
 Here we will explain several example Definitions to get you started
 
 For a more detailed treatment, see the xref:cdDeployments[Deployments Reference] in the Developer's Guide
 
-===== Sandbox
+==== Sandbox
 
 Explain the Sandbox
 
-===== CML Workshop
+==== CML Workshop
 
 Explain the CML Workshop
 
-===== CDE Workshop
+==== CDE Workshop
 
 Explain the CDE Workshop
 
-===== CDF Workshop
+==== CDF Workshop
 
 Explain the CDF Workshop
 
-===== Key Definition Options
+==== Key Definition Options
 
-====== Network Infrastructure Architecture
+===== Network Infrastructure Architecture
 
 Explain L0, L1, L2 Networking

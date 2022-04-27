@@ -7,10 +7,11 @@
 :toclevels: 3
 :sectanchors:
 :sectlinks:
+:sectnums:
+:sectnumlevels 3:
+:multipage-level: 2
 
 toc::[]
-
-== Introduction
 
 These docs are for Cloudera-Labs on github.io, and supplementary to the official Cloudera documentation at https://docs.cloudera.com/[docs.cloudera.com]
 
@@ -18,6 +19,12 @@ They are intended to provide guidance for the repositories of DevOps tools, Work
 
 If you find a mistake in these docs, please raise an https://github.com/cloudera-labs/cloudera-labs.github.io/issues[Issue] on Github, consider using our xref:Contributing[Contribution Guide], or contact a representative of Cloudera for assistance.
 
-include::content/deploy/main.adoc[]
+They are not intended to be read from front-to-back, instead we have broken up the content into four use-case driven categories:
 
-include::content/contributing.adoc[]
+include::content/orientation/main.adoc[]
+
+include::content/training/main.adoc[]
+
+include::content/guides/main.adoc[]
+
+include::content/references/main.adoc[]

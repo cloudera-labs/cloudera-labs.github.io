@@ -1,0 +1,13 @@
+== Information-oriented References
+
+include::background.adoc[]
+
+include::terminology.adoc[]
+
+include::definitionsreference.adoc[]
+
+include::cdp_public.adoc[]
+
+include::workflows.adoc[]
+
+include::schemareference.adoc[]

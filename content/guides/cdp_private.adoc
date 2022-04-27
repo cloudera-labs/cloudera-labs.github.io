@@ -1,5 +1,5 @@
 [[cdPrivate]]
-==== CDP Private Cloud Deployments
+=== CDP Private Cloud Deployments
 
 CDP Base represents deployment of 'Traditional' clusters via Cloudera Manager, which you might think of historically as hadoop or big data clusters. In practice, there is an Ansible Collection called `cloudera.cluster` which is excellent at configuring Cloudera Manager across various versions of Linux regardless of whether that OS is running in Containers, Virtual Machines, Cloud Infra like EC2, or old school baremetal nodes.
 
@@ -7,7 +7,7 @@ Cloudera.cluster is wrapped within Cloudera-Deploy, so again in practice you are
 
 The differences are that Cloudera.cluster has been built over many generations to support Cloudera Manager versions 5 to 7, and supports many legacy options and behaviors for user convenience. The result of this is that, while simple deployments are as simple as the more modern CDP Public Cloud, complex deployments will require a greater familiarity with Ansible and Cloudera Manager templates.
 
-===== Ansible Controller options
+==== Ansible Controller options
 
 We still strongly recommend that you use the cloudera-runner Docker Container shipped with Cloudera-Deploy as your Ansible controller for CDP Base deployments, because the consistency and logging is going to save you time and effort.
 
@@ -17,7 +17,7 @@ As such, there is a https://github.com/cloudera-labs/cloudera-deploy/blob/main/c
 
 NOTE: It is worth noting that the `admin_password` field from your Profile, as outlined in the Quickstart, will be used as the Cloudera Manager admin password during `cloudera.cluster` deployments.
 
-===== Inventories
+==== Inventories
 An inventory file can be supplied using the traditional -i flag at runtime or by including either
 inventory_static.ini or inventory_template.ini in the definitions path.
 
@@ -39,11 +39,11 @@ All nodes/groups should be added as children of the `deployment` group `[deploym
 
 WARNING: Do not use the `[all:vars]` group if you are using an independent Ansible Controller as Plays will also be applied to it via the `localhost` mechanic. This includes from your Laptop or the Ansible-Runner supplied in Cloudera-Deploy.
 
-===== Process Overview
+==== Process Overview
 
 In this section we will walk through a typical deployment, commenting on options at various points
 
-====== 1. Prepare a Definition Path
+===== 1. Prepare a Definition Path
 
 You are advised to create a working directory for your definition in your preferred Projects directory.
 
@@ -54,7 +54,7 @@ If you have checked out Cloudera-Deploy from Github following the Quickstart, th
 ~/Projects/cloudera-deploy  # contains quickstart.sh, main.yml
 ~/Projects/my-definition  # copied from ~/Projects/cloudera-deploy/examples/sandbox
 
-====== 2. Infrastructure and Inventory
+===== 2. Infrastructure and Inventory
 You are advised to prepare your nodes in advance by whatever mechanism you prefer, and then include them in an Ansible Inventory matching the shape of the Cluster you want to deploy.
 
 You may use Cloudera-Deploy to automatically provision EC2 instances based on the inventory template, but this is intended for test and training purposes. An example inventory template is included in the https://github.com/cloudera-labs/cloudera-deploy/blob/main/examples/sandbox/inventory_template.ini[Cloudera-Deploy Sandbox Example]. There is also a copy of the `static_inventory.ini` file in this directory.
@@ -72,7 +72,7 @@ ansible_user=root
 
 NOTE: When you run quickstart.sh to launch the Runner Container, it will mount your local user `~/.ssh` directory into the container, so there is no need to copy keys around provided you use bash expansion for the user home directory.
 
-====== 3. Cloudera-Deploy and the Runner
+===== 3. Cloudera-Deploy and the Runner
 
 If you have not already done so, you should follow the instructions to setup your OS dependencies and get a copy of Cloudera-Deploy. New users are encouraged to use the https://github.com/cloudera-labs/cloudera-deploy/blob/main/readme.adoc[Quickstart], while Power Users who want to immediately understand the inner workings may wish to follow selected parts of the <<developers.adoc#_detailed_setup_for_developers,Developers>> guide.
 
@@ -88,7 +88,7 @@ NOTE: If we do not specify which directory to mount, the quickstart.sh script wi
 
 NOTE: If you did not stop the container previously, quickstart.sh will ignore any arguments passed and simply give you a new terminal session in the existing container. Therefore, if you want to change the mounted directory you must stop and restart the container with the new path.
 
-===== 4. Executing Playbooks
+==== Executing Playbooks
 
 To run the playbook, we use the `ansible-playbook` command. The entry point to the playbook is in main.yml in cloudera-deploy. With our mount point in /runner/project, the full path is `/runner/project/cloudera-deploy/main.yml`. This is passed as the first argument to ansible-playbook.
 

@@ -23,7 +23,7 @@ When Ambari and Cloudera Manager (amongst others) where early orchestrators-of-c
 
 Later on, when management of deployment to IaaS was being developed in Director and Cloudbreak, Procedural management tooling like Saltstack, Puppet, Ansible and Chef were battling for adoption and dominance in deployment and configuration management.
 
-As cloud infrastructure APIs became more deterministic, and cloud standards more codified, Terraform rose to prominence with the Declarative IaaC movement. Now you could combine declarative infrastructure with procedural deployments, and people started to appreciate the combination of Terraform and Ansible as powerful system tools.
+As cloud infrastructure APIs became more deterministic, and cloud standards more codified, Terraform rose to prominence with the Declarative IaC movement. Now you could combine declarative infrastructure with procedural deployments, and people started to appreciate the combination of Terraform and Ansible as powerful system tools.
 
 Around this time Cloudera first published our https://github.com/cloudera/cloudera-playbook[Ansible Playbooks] for deploying Cloudera Clusters. While we still also use other tools within our systems, we settled on Ansible as the most broadly adoptable and adaptable tool to work with our Customers when integrating our Platform with their extremely varied Environments.
 
@@ -92,7 +92,7 @@ If the variable is likely to be referenced elsewhere within that specific Role, 
 
 If the user defined variable is needed across multiple Roles in a Collection, then make a `common` Role in the Collection and have the other Roles pull the variables from the defaults part of this common Role. `cloudera.exe` makes extensive use of this, with the common defaults https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/common/defaults/main.yml[here], and the infrastructure Role importing them https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/defaults/main.yml[here].
 
-If the variable is discovered for a Role, such as checking whether a resource exists on a given cloud provider, then it should be discovered anew for each Role and variables from other Roles should not be assumed to exist. This allows the Roles to be used separately if desired, or skipped using `--skip-tags` for brevit.
+If the variable is discovered for a Role, such as checking whether a resource exists on a given cloud provider, then it should be discovered anew for each Role and variables from other Roles should not be assumed to exist. This allows the Roles to be used separately if desired, or skipped using `--skip-tags` for brevity of Runs.
 
 All significant variables in a Role that the end-user is likely to care about should be defined in defaults for that Role, using the prefixed names, and imported from common where necessary. In this way 99.9% of stupidly annoying variable issues may be avoided, and the rest can probably be blamed on Azure consistency errors.
 
@@ -104,7 +104,7 @@ Naming things is the second-hardest problem in DevOps.
 
 In this Framework we rely extensively on procedurally naming objects and complying with the various and varying restrictions on uniqueness, length, character sets, immutability, and other weird requirements that emerge from the world of Hybrid Cloud Infrastructure.
 
-In practical terms, we try to stick to a known-good intersection of requirements that work
+In practical terms, we try to stick to a known-good intersection of requirements that work.
 
 As such, we have settled on assigning default `label` strings to most conceptual components, and `suffix` for most classes of objects to be created. When combined with the `name_prefix` for that Deployment, and some other sources of uniqueness like the `infra_type`, we find we can generate meaningful names for almost anything while still allowing the user to modify as they see fit.
 
@@ -118,6 +118,6 @@ Generally avoid punctuation, particularly at the start or end of a name, as we h
 
 Starting a name with a number can also sometimes cause strange subsystem errors.
 
-Generally stick to basic UTF8 characters - while some systems will allow you to use the exciting depths of UTF32, many others will fail terribly.
+Generally stick to basic UTF8 characters - while some systems will allow you to explore the exciting depths of UTF32, many others will fail terribly.
 
 Our guidance in these notes is there to help you avoid such difficult errors, please heed it.
