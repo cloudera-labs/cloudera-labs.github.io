@@ -32,13 +32,13 @@ We assume you have a recent version of 64bit Windows 10 with Administrator acces
 . (Optional) Setup xref:_setup_gpg_commit_signing[Commit Signing] for Contributions
 . (Optional) Get setup to Develop the xref:_getting_started_with_developing_collections[Collections] themselves
 
-==== Processes
+=== Process Guides
 
-===== Main Setup Process
+==== Main Setup Process
 
 This Setup Process is simply the https://github.com/cloudera-labs/cloudera-deploy/blob/main/readme.adoc#2-quickstart[Quickstart] from the Cloudera-Deploy Readme with more steps and explanations.
 
-====== Prerequisites
+===== Prerequisites
 
 NOTE: It is easiest to test your credentials within the Runner, as the dependencies are already installed for you
 
@@ -58,7 +58,7 @@ NOTE: It is easiest to test your credentials within the Runner, as the dependenc
 .. Docker and Git installed locally (quick option)(<<_setup_docker,See Setup Docker>>)
 .. or - Ability to install Python and CLI dependencies on the machine of your choice (slow option)(See xref:_manual_ansible_controller_setup_on_centos7[Centos7 Script] for an example)
 
-====== Get the Repo
+===== Get the Repo
 . Open a terminal and switch to your preferred projects directory
 [source,bash]
 cd ~/Projects
@@ -69,7 +69,7 @@ git clone https://github.com/cloudera-labs/cloudera-deploy.git && cd cloudera-de
 
 NOTE: If you already have the repo cloned, don’t forget to xref:_refresh_your_cloudera_deploy_local_repo[update it]
 
-====== Get the Runner
+===== Get the Runner
 
 . Have xref:_setup_docker[Docker] Installed and running
 . (Optional) Set your provider to download a reduced image and save disk space
@@ -113,7 +113,7 @@ aws sts get-caller-identity
 
 .. You should likewise compare the Account ID reported here with the Account ID in the AWS IAM UI to ensure you are targeting the expected Account. This is similar for other providers.
 
-====== Prepare your Profiles to run a Deployment
+===== Prepare your Profiles to run a Deployment
 NOTE: that you should execute any Ansible commands from /runner in the Runner, as it has all the defaults set for you and it may fail to find dependencies otherwise.
 
 NOTE: If you have different settings for different deployments you can create additional profile files under the directory above to store the different configurations. To use an alternative cloudera-deploy profile, specify the `-e profile=<profile_name>` option when running the ansible-playbook command.
@@ -140,7 +140,7 @@ az login
 [source,bash]
 gcloud init
 
-====== Deployment Run Commands
+===== Deployment Run Commands
 
 Provided you have completed the prerequisites to set up a cloud provider credential, and CDP Public Cloud credential, and your Cloudera-Deploy Profile, the following command creates a default Sandbox with CDP Public & Private Cloud in your default CDP Tenant and Cloud Infra Provider with no further interaction from the user:
 [source,bash]
@@ -178,7 +178,7 @@ ansible-playbook project/cloudera-deploy/main.yml -e "definition_path=examples/s
 
 NOTE: This leverages the dynamic inventory feature to make a simple cluster on EC2 instances on AWS without the user needing to learn how first, and is very handy for trials and platform testing
 
-===== Refresh your Cloudera-Deploy local repo
+==== Refresh your Cloudera-Deploy local repo
 If you have previously used Cloudera-Deploy but haven’t touched it in a while, here is a guide to refreshing your setup and getting results quickly
 
 [source,bash]
@@ -190,11 +190,11 @@ docker stop $(docker ps -qa)
 cdp iam get-user
 aws iam get-user
 
-===== Manual Ansible Controller setup on Centos7
+==== Manual Ansible Controller setup on Centos7
 
 We provide an example script for initialising an Ansible Controller on a Centos7 box https://github.com/cloudera-labs/cloudera-deploy/blob/main/centos7-init.sh[here]
 
-===== Install Homebrew and Git on OSX
+==== Install Homebrew and Git on OSX
 .Install XCode command line tools
 [source,bash]
 xcode-select --install
@@ -211,7 +211,7 @@ If you are going to use AWS SSO, you may also with to install awscliv2 on your l
 [source, bash]
 brew install awscli@2
 
-===== Setup Docker
+==== Setup Docker
 
 .Guide for Windows
 Follow the instructions provided by https://docs.docker.com/docker-for-windows/install/[Docker]
@@ -221,7 +221,7 @@ NOTE: You want to be using WSL2, make sure Docker can see the underlying Ubuntu 
 .Guide for OSX
 Follow the instructions provided by https://docs.docker.com/docker-for-mac/install/[Docker]
 
-===== Install Windows Subsystem for Linux (WSL2)
+==== Install Windows Subsystem for Linux (WSL2)
 
 .There’s a lot of guides on how to do this, here’s a summary:
 
@@ -248,7 +248,7 @@ Follow the instructions provided by https://docs.docker.com/docker-for-mac/insta
 .. Set ubuntu as default if it is not
 .. `wsl -s Ubuntu`
 
-===== Handle line-endings on Windows
+==== Handle line-endings on Windows
 Windows defaults to a different line ending standard than Linux/OSX.
 
 NOTE: You only need to follow this step if you plan on editing the code on Windows.
@@ -260,7 +260,7 @@ The Cloudera Labs repos standardise on linux line endings, the easiest way to ha
 .. Set your IDE to use Linux line endings, if not for everything then at least the Cloudera Labs projects
 .. In Pycharm, this is in File > Settings > Editor > Code Style > General > Line Separator: set to ‘Unix and macOS (\n)
 
-===== Setup GPG commit signing
+==== Setup GPG commit signing
 
 NOTE: You can skip this step if you are not planning on contributing code
 
@@ -394,7 +394,7 @@ use-agent
 .. Find the following flag in the config and enable it `git.enableCommitSigning`
 
 
-===== Using the Ansible Runner Independent of Cloudera-Deploy
+==== Using the Ansible Runner Independent of Cloudera-Deploy
 
 In order to minimise time spent on dependency management and troubleshooting issues arising from users on different systems, we provide a standardised container image.
 The image is prepared in such a way that you can use it as a shell, a python environment, a container on Kubernetes, within other CICD Frameworks, Ansible Tower, or simply as an ansible-runner.
@@ -428,7 +428,7 @@ pip install -r project/deps/python-deps.txt
 
 NOTE: By default, the container is recreated if stopped, but it will not stop if you close your shell session as it is held open by a background tty. Try not to kill that.
 
-===== Getting Started with Developing Collections
+==== Getting Started with Developing Collections
 
 NOTE: You can skip this step if you only want to use the Collections to create your own playbooks.  +
 This step is setting up the to Develop the Collections themselves.
@@ -522,7 +522,7 @@ To test that cdpy is present and you can access your account as on cmdline
 
 You may now edit the collections or cdpy and have the changes immediately available for use within the Runner, which is an awful lot easier than having to compile and crossload them after every change.
 
-===== Install Dependencies without using Runner
+==== Install Dependencies without using Runner
 We prefer that you use the Runner, because it sets many defaults to avoid common issues and thus save you and us a lot of issue reproduction time. However, we understand that there are many situations where it may not be appropriate, such as air-gapped environments, or when you want to run the install locally on the hardware and not have a separate ansible controller.
 
 . Create a new virtualenv, or activate an existing one, we do not recommend installing dependencies in system python on most OS.
@@ -531,12 +531,12 @@ Install any additional dependencies you may have
 
 NOTE: THe Dockerfile resolves combined dependencies for all our Hybrid Cloud Deployments, you probably only need a subset for your environment.
 
-===== Developing within the Runner
+==== Developing within the Runner
 While we recommend using the Runner as your execution environment when doing development, actually developing directly against the Runner using something like Visual Studio may not be a great idea due to the file system latency commonly encountered.
 
 Generally when the maintainers work with this system we are editing the files directly on our host system using our IDE, and those files are RW mounted into the container for execution via the `/runner/project` mechanism, which then does not noticeably incur any performance degradation.
 
-===== Working with AWS SSO
+==== Working with AWS SSO
 
 .Why:
 Traditionally AWS users would use static keys, but more recently using temporary credentials via SSO is more commonplace.
@@ -572,7 +572,7 @@ aws_profile: my-aws-profile
 
 NOTE: You will likely have to re-login to SSO before each run
 
-===== Using a Jumpbox
+==== Using a Jumpbox
 
 A common deployment scenario is to funnel all cluster access through a jump/bastion host.
 
@@ -606,70 +606,3 @@ Host myJump
 With this SSH config the proxy string would look like this:
 [source,bash]
 ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q myJump"'
-
-===== Troubleshooting
-====== Ansible vs cloudera.cluster
-
-.Can't detect the required Python library
-This is most commonly caused by having more than the usual number of versions of Python installed.
-
-Very possibly you've ended up with 2.7, 3.6 and 3.8, or something like that, and the library you are looking for is in the wrong version.
-Remove extraneous versions, figure out what is installing them and prevent it.
-
-.cannot dnf install with python2
-This usually happens when Ansible decides it simply must use /usr/bin/python even though a perfectly good python3 or other is preferred.
-
-Most commonly this is caused by legacy Ansible python version detection where it will *always* use /usr/bin/python if present. This is fixed by adding `ansible_python_interpreter=auto` to all your target hosts in your inventory, such as in the `[deployment:vars]` group.
-
-====== Credentials
-.403 error from AWS
-Could be a credential refreshing, retry to see if it’s isolated
-
-.Error like: Profile given for AWS was not found.  Please fix and retry.
-This looks to be caused when an underlying call uses authentication from boto, rather than boto3 - and boto doesn’t support the new access scheme. Find the failing Task and report it to us.
-
-.The SSO session associated with this profile has expired or is otherwise invalid
-You need to relogin
-
-.no valid credential sources for Terraform AWS Provider found
-Using Terraform for Cloudera Deploy, this typically means your SSO token has expired, relogin to continue
-
-.WSL2 - Browser does not launch
-The browser may not open during the aws configure sso command if you have the DISPLAY environment variable set in WSL2. This is likely to happen if you run Linux GUI applications in WSL and don't have a browser installed in the WSL distribution.
-
-The quick fix in this case is to unset DISPLAY and re-run the SSO configure command.
-
-====== General Troubleshooting
-.docker: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
-
-You need to enable WSL integration in the Docker Desktop settings for Resources > WSL Integration
-
-.SSH_AUTH_SOCK is empty or not set, unable to proceed. Exiting
-
-Run the following command to activate the ssh-agent:
-[bash,source]
-----
-eval `ssh-agent -s`
-----
-
-If that command doesn't work, try
-[bash,source]
-----
-eval "$(ssh-agent)"
-----
-
-.docker: Error response from daemon: invalid mount config for type "bind": field Source must not be empty.
-
-Probably your SSH_AUTH_SOCK is not populated from the ssh-agent. Same fix as above.
-
-.The path /private/tmp/com.apple.launchd.[some random sting]/Listeners is not shared from the host and is not known to Docker.
-
-You need to add you /private directory to the file sharing in your Docker settings for Resources > File Sharing
-
-.GPG Signing is failing for my git commits
-Could be lots of reasons, start by doing a commit on cmdline with `GIT_TRACE=1` set to see the specific error.
-
-A common cause is your GPG Key expiring, to fix this on OSX:
-. comment out no-tty in ~/.gnupg/gpg.conf
-. Follow https://stackoverflow.com/a/43728576/4717963[this process] on SO to reset your key expiry
-. Re-enable no-tty

@@ -9,7 +9,7 @@
 :sectlinks:
 :sectnums:
 :sectnumlevels 3:
-:multipage-level: 2
+:multipage-level: 1
 
 toc::[]
 
