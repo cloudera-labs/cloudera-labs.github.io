@@ -1,0 +1,53 @@
+[[cdGettingStarted]]
+=== Getting Started
+Cloudera-Deploy is designed for use both internally and externally by Cloudera Engineering, Testing, Education, Support, Field, Sales, Marketing and other staff, but also the same code and artefacts are used by Customers, Partners, Resellers, and our Community.
+
+As such, we have set it up so a new user can get started in as little as 3 steps, while not limiting Power Users from leveraging the full suite of capabilities.
+
+.Prerequisites
+
+While Cloudera-Deploy aims to remove as many complexities for the new user, there are still a few dependencies like authentication and runtimes required for it to work. The quickstart guide contains extra prerequisite steps that you are advised to follow if this is your first time using new credentials or tools such as AWS CLI.
+
+.Understanding the Skills Gap
+
+We recognise there is a significant jump in the skills and knowledge required to go from using the pre-configured push-button examples in the 'Simple' section to more complex cases the 'Intermediate' section and beyond.
+
+There are several good introductory courses online for Ansible and Terraform use in Hybrid Cloud Architectures. Cloudera also offers a training program tailored to these tools to interested Customers and Partners.
+
+You can also reach out to your Cloudera contacts for assistance in these deployments at any time.
+
+==== Personas
+===== New to Automation
+
+Using Cloudera-Deploy without modifying it only requires a couple of steps and some cloud credentials. It is designed to be extremely accessible to new users.
+
+If this is your first time, we suggest running the Cloudera-Deploy https://github.com/cloudera-labs/cloudera-deploy/blob/main/readme.adoc[Quickstart] using one of the prebuilt Definitions before diving in further.
+
+.Skills required:
+commandline, editing text files, cloud credential management
+
+===== Create your own Definitions
+Crafting Definitions is just editing text files to declare what the Deployment should look like, and allowing Cloudera-Deploy to interpret and produce what you have described. The files are written in YAML with a simple structure.
+
+Once you have worked out how to run a basic Deployment via the Quickstart, you may wish to customise it to meet your requirements. A summary of editing Definitions is included in the Getting Started sections for xref:cdCDPPublic[CDP Public Cloud] and xref:cdPrivate[CDP Private Cloud].
+
+There is also a detailed explanation of how Definitions work in the xref:cdDeployments[Deployments Reference] in the Developer's Guide, though reading the rest of these Docs and examining the other Definition examples may also be helpful.
+
+.Additional skills required:
+YAML editing and formatting, Cloudera-Deploy Definitions management
+
+===== Create your own Playbooks
+Creating your own Playbooks requires a working understanding of authoring Ansible tasks and how to use Modules and Roles from Ansible Collections. It goes a step beyond editing YAML declarations into understanding the sequences of steps necessary to achieve a given outcome in a hopefully robust manner.
+
+We will soon be publishing more examples of Application Playbooks on top of Cloudera-Deploy, but you can review the Playbooks already included as a starting point.
+
+We suggest you start by fully reading this documentation including the xref:cdForDevelopers[Developer] sections and how the existing xref:cdWorkflows[Workflows] are structured.
+
+.Additional skills required:
+Ansible Task development, use of Ansible Collections, advanced use of Ansible Tags, experience with multi-tier automation abstractions
+
+===== Extend the Framework
+If you are familiar with Ansible and Cloudera Products, and are considering adding Ansible modules or Roles to the Collections, then you may wish to follow the xref:cdDevelopersSetup[Developer Setup]  to fork and checkout the Framework components so you can make (and perhaps contribute back) your own changes.
+
+.Additional skills required:
+Python development, Ansible test frameworks and debugging, Docker Containers

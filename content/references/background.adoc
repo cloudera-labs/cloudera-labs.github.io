@@ -1,0 +1,123 @@
+[[cdHistory]]
+=== Background
+
+In this section of the documentation we will attempt to collate answers to commonly asked questions about the Why and How things are built the way they are.
+
+In general, we try to include comments directly in the code to explain why some particular thing may be done a particular way. Please raise an https://github.com/cloudera-labs/cloudera-labs.github.io/issues[Issue] if there is some step in the tasks which you want more explanation on, or if you want some workflow to have an explanation in these docs.
+
+==== Guiding Principles
+
+. Good Defaults don't produce Bad Surprises
+. Least-worst is usually better than best
+. The needs of the many generally outweigh the needs of the few
+. It should work out of the box
+. It should be secure by default
+. Provide examples and as much freedom as possible
+. Fix it upstream if you can
+
+==== History
+
+This codebase is the 4th or 5th generation tooling for automating the Platform that, in the current incarnation, is called CDP or the Cloudera Data Platform.
+
+When Ambari and Cloudera Manager (amongst others) where early orchestrators-of-clusters, there were quickly deployers-of-orchestrators being published, such as https://github.com/seanorama/ambari-bootstrap[Ambari-Bootstrap] and many others. These early efforts were simple and effective, and typically in Bash or Perl.
+
+Later on, when management of deployment to IaaS was being developed in Director and Cloudbreak, Procedural management tooling like Saltstack, Puppet, Ansible and Chef were battling for adoption and dominance in deployment and configuration management.
+
+As cloud infrastructure APIs became more deterministic, and cloud standards more codified, Terraform rose to prominence with the Declarative IaC movement. Now you could combine declarative infrastructure with procedural deployments, and people started to appreciate the combination of Terraform and Ansible as powerful system tools.
+
+Around this time Cloudera first published our https://github.com/cloudera/cloudera-playbook[Ansible Playbooks] for deploying Cloudera Clusters. While we still also use other tools within our systems, we settled on Ansible as the most broadly adoptable and adaptable tool to work with our Customers when integrating our Platform with their extremely varied Environments.
+
+With the rise of Container Orchestration like Kubernetes, yet another maturity level in systems management became apparent - a stack building up to declarative applications with self-healing and auto-scaling possibilities. Now maturing valuable APIs for determinism and observability became more critical, while still offering suitable integration for users of varying modernity and maturity stages at the edge of the zone of control.
+
+So, today, Cloudera offers many entrypoints into integrating with our Hybrid Data Platform, from deploying legacy versions of our traditional cluster management software, to deploying real-time data streaming analytics on managed kubernetes in various cloud-native providers.
+
+We continue to provide Ansible as our general purpose Procedural automation framework, as it can generally be adapted to most situations as a good starting point. We wrap in Terraform as an option for Infrastructure, as the widely recognised industry standard, and provide the usual collection of SDKs and API specifications underneath.
+
+==== Declarative vs Procedural
+
+We have taken the approach of implementing a much more Declarative approach to Ansible in this framework. It is not particularly traditional to use Ansible in this way prior to ~v2.10, and you might say why not use a built-for-purpose Declarative tool like Terraform instead.
+
+The main answer to this could be summarised as follows: Ansible is better at discovering and modifying deployments, whereas Terraform prefers to own and modify them. The difference is important as, in designing these automations, we cannot know whether a given user has full control of the deployment over time. It is quite easy to get your Terraform state into a bad place if people can unexpectedly edit the deployment directly (as often happens in complex tiered applications with shared-responsibility models), whereas Ansible is comfortable with taking things as it finds them.
+
+Secondly, we cannot know or support how 3rd party APIs and software versions may change over time with respect to a users' deployment. There are too many permutations of possible deployments to support, and so we again need a framework that is more flexible and may be adapted by any given user to their circumstances.
+
+Thirdly, we find that the broad set of APIs and systems that CDP is integrated with have better coverage in Ansible Modules and Collections than Terraform Providers, and when that coverage isn't available, it's relatively easier to fall back to a CLI or API request implemented in Ansible.
+
+That is not to say Terraform is somehow bad or inappropriate - actually we strongly recommend that, if you have good authorization controls over your Infrastructure, Terraform is the best way to manage it. Our point is more that, if you have this you probably already have good DevOps skills and can gracefully adopt this Framework, whereas Ansible is going to be lower friction for everyone earlier in their journey.
+
+All that being said however, the more of your deployment you can manage declaratively _probably_ the easier your life will be - the art of the science here is knowing when to switch tools and why.
+
+NOTE: Ansible and Terraform - Better Together
+
+==== Implicit with defaults vs explicit
+
+This framework strives to have a clear and singular default value for as many of the variables in the platform as possible, and those default values should represent the balance between best practice secured deployments and working easily out-of-the-box for new users.
+
+The defaults should not produce results that surprise the User with Bad Things, like accidentally deleting data or secrets.
+
+All defaults should be able to be overridden without difficulty by users who know what they want.
+
+The purpose of this approach is primarily to enable new users to be productive with a minimum of front-loaded learning, through the means of deployments requiring a minimum of configuration, but allowing a maximum of explicit configurability as user skill and confidence grows.
+
+So, you can have a deployment from defaults with almost no fore-knowledge of how CDP works (like our Trial), but you can also use a 400 line declarative YAML file to describe your whole deployment (like our QE) and _both options are perfectly valid and use exactly the same tooling_
+
+==== Multi-tier abstraction
+
+In order to deliver on this more complex implementation, it is necessary to pay the cost of several layers of abstraction.
+
+Some of these are implemented directly here, but where possible we use upstream vendor implementations, e.g. cloud provider maintained Terraform Providers or Ansible Collections.
+
+. Base clients (CDPCLI, Azure CLI, AWS CLI, etc.)
+. Procedural clients (cdpy)
+. Declarative Modules (`cloudera.cloud`, `amazon.community`, etc.)
+. Sequential Tasklists (`cloudera.exe`, `geerlingguy.postgresql`)
+. Playbooks (cloudera-deploy)
+. Declarative Definitions (definitions)
+
+Generally we aim to push some complex task or piece of logic towards the best implementation point, for example, it is much easier to do a complex map or filter operation in Python within an Ansible Module than to express it within an Ansible Jinja template in a task within a Role.
+
+Most users will not need to bother themselves with any of this; they will craft Definitions, apply them with the Playbooks and satisfy their requirements. But for Developers, you will need to develop a sense of when something should be upstream in the Base Clients, put into cdpy or the Modules as reusable Python code, or be expressed in some Ansible Task within a particular sequence.
+
+Feel free to raise an Issue on the repositories for guidance in these cases.
+
+==== Ansible Collections and the Handling of Variables
+
+Possibly the single most frustrating thing in Ansible is when you can't figure out where a variable was defined, or why it isn't the value you expect to be because someone has squashed it somewhere else.
+
+In this Framework, unless you can't for reasons of backwards compatibility, all variable names should be prefixed.
+
+If the variable is local, and only not intended to be reused, then we follow the Python standard of a single or double underscore. This is particularly important in naming trivial variables such as those used in loops. They must be unique, and it is lazy not to do this, e.g. `__bag_of_holding_item`
+
+If the variable is likely to be referenced elsewhere within that specific Role, assign the whole Role some short but obvious prefix followed by a double underscore to indicate ownership, and then uniquely name variables e.g. `hg__wingardium_leviosaaaa`
+
+If the user defined variable is needed across multiple Roles in a Collection, then make a `common` Role in the Collection and have the other Roles pull the variables from the defaults part of this common Role. `cloudera.exe` makes extensive use of this, with the common defaults https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/common/defaults/main.yml[here], and the infrastructure Role importing them https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/defaults/main.yml[here].
+
+If the variable is discovered for a Role, such as checking whether a resource exists on a given cloud provider, then it should be discovered anew for each Role and variables from other Roles should not be assumed to exist. This allows the Roles to be used separately if desired, or skipped using `--skip-tags` for brevity of Runs.
+
+All significant variables in a Role that the end-user is likely to care about should be defined in defaults for that Role, using the prefixed names, and imported from common where necessary. In this way 99.9% of stupidly annoying variable issues may be avoided, and the rest can probably be blamed on Azure consistency errors.
+
+Full credit to Webster Mudge for this robust design.
+
+==== Cloud Infrastructure and the Naming of Objects
+
+Naming things is the second-hardest problem in DevOps.
+
+In this Framework we rely extensively on procedurally naming objects and complying with the various and varying restrictions on uniqueness, length, character sets, immutability, and other weird requirements that emerge from the world of Hybrid Cloud Infrastructure.
+
+In practical terms, we try to stick to a known-good intersection of requirements that work.
+
+As such, we have settled on assigning default `label` strings to most conceptual components, and `suffix` for most classes of objects to be created. When combined with the `name_prefix` for that Deployment, and some other sources of uniqueness like the `infra_type`, we find we can generate meaningful names for almost anything while still allowing the user to modify as they see fit.
+
+You can find most of these in the https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/common/defaults/main.yml[cloudera.exe.common] Role defaults.
+
+You can also statically assign names to almost anything, but then you are responsible for investigating the impact that might have.
+
+Generally shorter names are better, particularly when something might be used to construct a FQDN, which must generally be <63 chars to be safe.
+
+Generally avoid punctuation, particularly at the start or end of a name, as we have found that different cloud providers and their subsystems will fail unexpectedly when they encounter a double underscore or double hyphen. In most cases a single hyphen or underscore that is not the first or last character are allowed.
+
+Starting a name with a number can also sometimes cause strange subsystem errors.
+
+Generally stick to basic UTF8 characters - while some systems will allow you to explore the exciting depths of UTF32, many others will fail terribly.
+
+Our guidance in these notes is there to help you avoid such difficult errors, please heed it.

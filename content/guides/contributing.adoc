@@ -1,4 +1,5 @@
-== Contributing to these Docs
+[[Contributing]]
+=== Contributing to these Docs
 
 Contributions to improve the docs are welcomed at any time.  +
 We encourage you to either directly create a PR for the changes, or open an Issue on Github.

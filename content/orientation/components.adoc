@@ -1,0 +1,46 @@
+[[cdComponents]]
+=== Framework Components
+
+Here we will give more of a sense of what is in each of the repositories within the framework
+
+==== cloudera-deploy
+This is the standard entry-point for most users, most of the time.
+
+It contains the main Ansible Playbooks, default User Profile, Definition handling, and Run initialization.
+
+It also usually contains other ease-of-use features for new users, like the current Dynamic Inventory implementation, until such time as they are matured into their own separate feature.
+
+==== cldr-runner
+A Container image as a common Runner with all dependencies suitable for use locally, with Ansible Tower, against an IDE, or various other circumstances
+
+It is based in a centos8 image produced by the Ansible Community, known as 'Ansible Runner'. We then resolve the difficulty of conflicting dependencies to layer in the various clients, python modules, utilities, and other bits and pieces that make it a useful shell or remote execution environment for working with Hybrid Cloud.
+
+You can also use this as a template for your own specific implementation, but we ask Users to adopt it as their default if they don't have a reason not too for the simple benefit of not reinventing something that works well and reduces the burden of reproducing errors.
+
+==== cdpy
+A Python client for the CDP Control Plane, both Public and Private.
+
+This is essentially a convenience wrapper for CDPCLI, which itself is based in a fork of AWSCLI and fully written in Python.
+
+cdpy contains a large number of helper methods which are reused throughout the `cloudera.cloud` modules, as well as well-structured Ansible-friendly error handling.
+
+==== Cloudera Ansible Collections
+.cloudera.cloud
+This Collection is primarily un-opinionated modules for the CDP Control Plane in Public or Private Cloud.
+
+The point of keeping the modules unopinionated and solely covering the CDP Control Plane interactions is to minimise the dependencies and attack surface for users who aren't using Public Cloud.
+
+.cloudera.exe
+This Collection is highly opinionated Roles for most task sequences around achieving some run-level or dependency satisfaction.
+
+The concept of run-level deployments in `cloudera.exe` is explained later in the Architecture.
+
+.cloudera.cluster
+This Collection is focused on Deploying & Configuring Clusters via Cloudera Manager - usually traditional Cloudera clusters.
+
+It is backwards compatible with the Cloudera Playbooks written for Ansible <2.9, whereas this Collection is for >2.10
+
+==== Example Deployment Definitions
+Example Definitions for use with Cloudera-Deploy, presently bundled https://github.com/cloudera-labs/cloudera-deploy/tree/main/examples[here]
+
+We plan on publishing more examples soon.

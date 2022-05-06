@@ -1,0 +1,46 @@
+[[cdIntroduction]]
+=== Introduction
+
+_Ansible Automation for Cloudera Products_  +
+_AKA: Cloudera Deploy | Cloudera AutoProv | Cloudera Ansible Foundry | Cloudera Playbooks_
+
+==== What to Expect
+These docs are for new users and power users alike to leverage Cloudera's Ansible implementation for deployment and automation of Cloudera Products within the wider Hybrid Data Cloud ecosystem.
+
+It is generally broken into several sections:
+
+.For all users:
+
+* These xref:cdIntroduction[introductory] notes to orient new users
+* A discussion of xref:cdUseCases[Use Cases] that the Framework supports
+* A xref:cdGettingStarted[Getting Started] guide based around user goals and skill levels
+* An xref:cdDeployments[Overview] of preparing Definitions for Deployment
+
+[[cdForDevelopers]]
+.For Developers:
+* A xref:cdHistory[History] and guiding principles
+* A breakdown of Framework xref:cdComponents[Components]
+* An in-depth xref:cdDevelopersSetup[Setup Guide]
+* Logical breakdowns of key xref:cdWorkflows[Workflows] within the Playbooks
+* A xref:cdSchemaReference[Reference] guide to all Definition options
+
+==== What is Cloudera Ansible Foundry
+
+This framework is generally called the Cloudera Ansible Foundry, and it wraps software dependencies, automation code, examples, and documentation into an integrated family.
+
+It further provides a consistent and portable toolkit for working in Python, Bash, Terraform, various CLIs, language clients, ad-hoc commands, and other commonly used tools in the Hybrid Cloud ecosystem.
+
+==== What is Cloudera Deploy
+
+Cloudera Deploy is the name of the reference implementation in Ansible Playbooks for automating Cloudera Products.
+
+For most users, https://github.com/cloudera-labs/cloudera-deploy[Cloudera-Deploy] is the entrypoint and only component they need interact with, but underneath it there is an extensible framework of components for handling various scenarios for power-users.
+
+To that end, you can use Cloudera-Deploy itself directly, or use it as a starting point for your own implementation, or simply use the components within for your own purposes.
+
+=== Licensing, Warranties and Restrictions
+Cloudera-Deploy and the underlying framework are all open source, mostly under the Apache 2.0 license or compatible licenses.
+
+The software is provided without Warranty or Guarantee of Support - it therefore differs from, and is complementary to, Software provided by Cloudera or other Vendors under commercial agreements.
+
+However, while we do not guarantee support, Cloudera use this software along with our partners and customers, and thus strive to maintain it to the same high standards of our other products in the best spirit of community and partnership.

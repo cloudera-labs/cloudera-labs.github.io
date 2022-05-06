@@ -4,18 +4,27 @@
 :data-uri:
 :title: Documentation for Cloudera-Labs
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectanchors:
 :sectlinks:
 :sectnums:
+:sectnumlevels 3:
+:multipage-level: 1
 
 toc::[]
 
-== Introduction
+These docs are for Cloudera-Labs on github.io, and supplementary to the official Cloudera documentation at https://docs.cloudera.com/[docs.cloudera.com]
 
-These docs are for Cloudera-Labs on github.io  +
 They are intended to provide guidance for the repositories of DevOps tools, Workshops, Demos, and other artefacts published in this Github Organization from time to time.
 
+If you find a mistake in these docs, please raise an https://github.com/cloudera-labs/cloudera-labs.github.io/issues[Issue] on Github, consider using our xref:Contributing[Contribution Guide], or contact a representative of Cloudera for assistance.
 
+They are not intended to be read from front-to-back, instead we have broken up the content into four use-case driven categories:
 
-include::content/contributing.adoc[Contributing to these Docs]
+include::content/orientation/main.adoc[]
+
+include::content/training/main.adoc[]
+
+include::content/guides/main.adoc[]
+
+include::content/references/main.adoc[]

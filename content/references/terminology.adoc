@@ -1,0 +1,45 @@
+=== Terminology
+Some terms used herein have specific meaning, and are usually Capitalised in the document to indicate they are being used in that specific context.
+
+.Playbooks
+Are referring to Ansible Playbooks, and are generally the main entrypoint into Runs
+
+.Run
+Some execution of a Playbook
+
+NOTE: When using the Runner, Runs are automatically logged back to the user profile and use a collection of default settings known to be good in most situations
+
+.Controller
+The Controller, or Ansible Controller, refers to the machine where the `ansible` or `ansible-playbook` etc. commands are being executed, as distinct from the 'Ansible Inventory' which are the hosts that Ansible is connecting to.
+
+.Runner
+Refers to https://github.com/cloudera-labs/cldr-runner[cldr-runner], a common Execution Environment. This is built from a Dockerfile maintained by the Ansible community, to which the various dependencies for CDP and Hybrid Cloud Architectures are added.
+
+.Definition
+A directory containing files expected by the Playbooks which describe the Deployment. The Definition directory also doubles as a working directory for artefacts produced in the Run. The files and details around composability will be explained later.
+
+.Deployment Definitions
+Refers to one or more of these Definition directories that may be provided by default with Cloudera-Deploy, created by the user, or some other process
+
+.Tags
+Tags is an overloaded term, and may be referring to:
+
+* 'Ansible Tags', which control what actions will be executed within the Run based on the Definition. At the simplest level this is things like ‘deploy’ or ‘teardown’ but can provide a great deal of control with sophisticated use
+* 'Tags' applied to cloud infrastructure, which is strongly recommended for all users
+
+.Profile
+Profile is an overloaded term and may refer to any of the following depending on context:
+
+* A profile specifically for Cloudera-Deploy which provides the lowest precedence of user defaults for things like Passwords. Usually found in `~/.config/cloudera-deploy/profiles` on Linux machines
+* A profile used with some external API, such as AWS, Azure, GCP or CDP, which usually specifies things like credentials, endpoints, regions, etc. Usually found in `~/.aws` or similar on Linux machines
+* Sometimes used to refer to your user home directory on your machine. When using the Runner, it mounts key User home directories such as your .ssh and .config folders in provide you access to those files with the various tools. Usually `/home/<user>` on Linux machines.
+
+.Subsystems
+
+Modern Platforms are layers upon layers of different bits of Software and Infrastructure working together.
+
+When we refer to Subsystems, we may mean a Cloud Provider in general, or some specific API, or an Apache Project. It is not necessarily Software provided or written by Cloudera, but we will attempt to give you good information about it.
+
+.Workflows
+
+There are many Processes within the Framework which touch on many levels of automation abstraction and may operate end-to-end over many files and subsystems. We refer to these as Workflows as a convenient label to indicate it's a bit more complex than a simple Ansible Task list or Playbook, and xref:cdWorkflows[Workflows] have their own section in the Developer's Guide.
