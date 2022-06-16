@@ -92,6 +92,6 @@ However, once you have set those defaults, you will likely want to describe the 
 
 There are several examples given within cloudera-deploy, such as the Sandbox, a CML Workshop, or all the Cloudera DataFlow services. These are all primarily public cloud examples, although the Sandbox does include a basic private cloud cluster as well.
 
-Generally, CDP Public cloud parameters follow a simple structure of some top-level key triggering a particular component to be deployed, along with whatever dependencies it needs, and then any child keys under that top-level key controlling some override of some default. These keys are explained in link:cdp_public.adoc[CDP Public Definition Keys].
+Generally, CDP Public cloud parameters follow a simple structure of some top-level key triggering a particular component to be deployed, along with whatever dependencies it needs, and then any child keys under that top-level key controlling some override of some default. These keys are explained in xref:cdSchemaReference[CDP Public Definition Keys].
 
 Generally, CDP Private Cloud is a more haphazard structure, simply because it is extremely configurable with nearly a decade of history and backwards compatibility, and therefore trying to constrain it to a pretty structure causes more problems than it fixes within the automation.

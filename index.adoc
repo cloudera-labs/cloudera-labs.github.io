@@ -2,7 +2,6 @@
 :doctype: book
 :docinfo: shared
 :data-uri:
-:title: Documentation for Cloudera-Labs
 :toc: left
 :toclevels: 3
 :sectanchors:

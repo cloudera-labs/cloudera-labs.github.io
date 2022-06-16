@@ -572,6 +572,23 @@ aws_profile: my-aws-profile
 
 NOTE: You will likely have to re-login to SSO before each run
 
+==== Working with named credential profiles
+
+For CDP, AWS, and other credential-based access controls it is common to have multiple accounts that may be used from time to time. As such, it is useful to be able to easily, safely, and precisely switch between these accounts.
+
+This is typically achieved through use of multiple named profiles, a good introductory guide to this is https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html[here] for AWS.
+
+To set up a named profile for CDP, follow https://docs.cloudera.com/cdp/latest/cli/topics/mc-cli-generating-an-api-access-key.html[this] guide to create an API access key, and then https://docs.cloudera.com/cdp/latest/cli/topics/mc-configuring-cdp-client-with-the-api-access-key.html[this] guide to configure your local credentials by simply adding the `--profile <profile name>` flag to the commands
+
+Credentials are typically stored in a dot-prefix directory in the user profile on Linux, and in the user home directory on Windows, e.g. `~/.aws/credentials`, `~/.cdp/credentials` etc. They may be directly edited in these files if you prefer instead of using the `configure` CLI commands.
+
+By default, Cloudera-Deploy will use the `default` profiles for each account touched, you can set the Definition yaml keys `cdp_profile: <profile name>` and/or `aws_profile: <profile name>` to use a specific named profile instead.
+
+.Things to know:
+
+* There should always be a `default` credential which points to a 'safe' account for when you deliberately or accidentally run commands without specifying a profile. This is generally a dev account, or even an expired credential, to ensure you don't accidentally delete prod.
+* It is typical with CDP Public Cloud to pair a CDP Tenant with specific Cloud Infrastructure accounts to avoid confusion, therefore if you have a `dev` and `prod` CDP tenant with profiles of the same name, we recommend the paired cloud infrastructure accounts are also named `dev` and `prod`.
+
 ==== Using a Jumpbox
 
 A common deployment scenario is to funnel all cluster access through a jump/bastion host.
