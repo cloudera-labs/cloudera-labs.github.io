@@ -68,9 +68,11 @@ You should use tags to identify your services to make it easy to track and remov
 [source,yaml]
 tags:
   owner: dchaffelson@cloudera.com
-  enddate: "01012022"
+  enddate: "01312022"
 
 IMPORTANT: The two-space indent of the tag `key: value` pairs is critical for correct YAML structure
+
+NOTE: For backwards compatibility reasons, we give the example date above in American or 'Freedom' format of MMDDYYYY. We recommend most people use ISO8601 or YYYYMMDD format.
 
 ===== Cloud Infrastructure
 
@@ -174,7 +176,7 @@ admin_password: Mysecretpword1!
 name_prefix: cldr
 tags:
   owner: dchaffelson@cloudera.com
-  enddate: "01012022"
+  enddate: "01312022"
 infra_type: aws
 infra_region: us-east-1
 gcloud_credential_file: '~/.config/gcloud/mycreds.json'
@@ -293,6 +295,7 @@ infra:
   aws:
     profile:
     region:
+    arn_partition:
     vpc:
       az_count:
       internet_gateway:
