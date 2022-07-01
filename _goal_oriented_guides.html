@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Documentation for Cloudera-Labs</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
-<p><span class="toc-root"><a href="README.html">Documentation for Cloudera-Labs</a></span></p><ul class="sectlevel1">
+<p><span class="toc-root"><a href="index.html">Documentation for Cloudera-Labs</a></span></p><ul class="sectlevel1">
 <li><a href="_introduction_and_user_orientation.html">1. Introduction and user-orientation</a>
 </li>
 <li><a href="_learning_oriented_training.html">2. Learning-oriented Training</a>
@@ -488,7 +488,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="_goal_oriented_guides.html#_working_with_aws_sso">3.2.13. Working with AWS SSO</a>
 </li>
-<li><a href="_goal_oriented_guides.html#_using_a_jumpbox">3.2.14. Using a Jumpbox</a>
+<li><a href="_goal_oriented_guides.html#_working_with_named_credential_profiles">3.2.14. Working with named credential profiles</a>
+</li>
+<li><a href="_goal_oriented_guides.html#_using_a_jumpbox">3.2.15. Using a Jumpbox</a>
 </li>
 </ul>
 </li>
@@ -1943,7 +1945,36 @@ You will likely have to re-login to SSO before each run
 </div>
 </div>
 <div class="sect3">
-<h4 id="_using_a_jumpbox"><a class="anchor" href="#_using_a_jumpbox"></a><a class="link" href="#_using_a_jumpbox">3.2.14. Using a Jumpbox</a></h4>
+<h4 id="_working_with_named_credential_profiles"><a class="anchor" href="#_working_with_named_credential_profiles"></a><a class="link" href="#_working_with_named_credential_profiles">3.2.14. Working with named credential profiles</a></h4>
+<div class="paragraph">
+<p>For CDP, AWS, and other credential-based access controls it is common to have multiple accounts that may be used from time to time. As such, it is useful to be able to easily, safely, and precisely switch between these accounts.</p>
+</div>
+<div class="paragraph">
+<p>This is typically achieved through use of multiple named profiles, a good introductory guide to this is <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html">here</a> for AWS.</p>
+</div>
+<div class="paragraph">
+<p>To set up a named profile for CDP, follow <a href="https://docs.cloudera.com/cdp/latest/cli/topics/mc-cli-generating-an-api-access-key.html">this</a> guide to create an API access key, and then <a href="https://docs.cloudera.com/cdp/latest/cli/topics/mc-configuring-cdp-client-with-the-api-access-key.html">this</a> guide to configure your local credentials by simply adding the <code>--profile &lt;profile name&gt;</code> flag to the commands</p>
+</div>
+<div class="paragraph">
+<p>Credentials are typically stored in a dot-prefix directory in the user profile on Linux, and in the user home directory on Windows, e.g. <code>~/.aws/credentials</code>, <code>~/.cdp/credentials</code> etc. They may be directly edited in these files if you prefer instead of using the <code>configure</code> CLI commands.</p>
+</div>
+<div class="paragraph">
+<p>By default, Cloudera-Deploy will use the <code>default</code> profiles for each account touched, you can set the Definition yaml keys <code>cdp_profile: &lt;profile name&gt;</code> and/or <code>aws_profile: &lt;profile name&gt;</code> to use a specific named profile instead.</p>
+</div>
+<div class="ulist">
+<div class="title">Things to know:</div>
+<ul>
+<li>
+<p>There should always be a <code>default</code> credential which points to a 'safe' account for when you deliberately or accidentally run commands without specifying a profile. This is generally a dev account, or even an expired credential, to ensure you don&#8217;t accidentally delete prod.</p>
+</li>
+<li>
+<p>It is typical with CDP Public Cloud to pair a CDP Tenant with specific Cloud Infrastructure accounts to avoid confusion, therefore if you have a <code>dev</code> and <code>prod</code> CDP tenant with profiles of the same name, we recommend the paired cloud infrastructure accounts are also named <code>dev</code> and <code>prod</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_a_jumpbox"><a class="anchor" href="#_using_a_jumpbox"></a><a class="link" href="#_using_a_jumpbox">3.2.15. Using a Jumpbox</a></h4>
 <div class="paragraph">
 <p>A common deployment scenario is to funnel all cluster access through a jump/bastion host.</p>
 </div>
@@ -2495,12 +2526,12 @@ We encourage you to either directly create a PR for the changes, or open an Issu
 </div>
 </div>
 <div class="paragraph nav-footer">
-<p>← Previous: <a href="_learning_oriented_training.html">Learning-oriented Training</a> | ↑ Up: <a href="README.html">Documentation for Cloudera-Labs</a> | Next: <a href="_information_oriented_references.html">Information-oriented References</a> →</p>
+<p>← Previous: <a href="_learning_oriented_training.html">Learning-oriented Training</a> | ↑ Up: <a href="index.html">Documentation for Cloudera-Labs</a> | Next: <a href="_information_oriented_references.html">Information-oriented References</a> →</p>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-06 10:57:24 UTC
+Last updated 2022-07-01 09:52:07 UTC
 </div>
 </div>
 </body>

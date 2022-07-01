@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Documentation for Cloudera-Labs</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
-<p><span class="toc-root"><a href="README.html">Documentation for Cloudera-Labs</a></span></p><ul class="sectlevel1">
+<p><span class="toc-root"><a href="index.html">Documentation for Cloudera-Labs</a></span></p><ul class="sectlevel1">
 <li><a href="_introduction_and_user_orientation.html">1. Introduction and user-orientation</a>
 </li>
 <li><a href="_learning_oriented_training.html">2. Learning-oriented Training</a>
@@ -991,7 +991,7 @@ When using the Runner, Runs are automatically logged back to the user profile an
 <p>There are several examples given within cloudera-deploy, such as the Sandbox, a CML Workshop, or all the Cloudera DataFlow services. These are all primarily public cloud examples, although the Sandbox does include a basic private cloud cluster as well.</p>
 </div>
 <div class="paragraph">
-<p>Generally, CDP Public cloud parameters follow a simple structure of some top-level key triggering a particular component to be deployed, along with whatever dependencies it needs, and then any child keys under that top-level key controlling some override of some default. These keys are explained in <a href="cdp_public.adoc">CDP Public Definition Keys</a>.</p>
+<p>Generally, CDP Public cloud parameters follow a simple structure of some top-level key triggering a particular component to be deployed, along with whatever dependencies it needs, and then any child keys under that top-level key controlling some override of some default. These keys are explained in <a href="_information_oriented_references.html#cdSchemaReference">CDP Public Definition Keys</a>.</p>
 </div>
 <div class="paragraph">
 <p>Generally, CDP Private Cloud is a more haphazard structure, simply because it is extremely configurable with nearly a decade of history and backwards compatibility, and therefore trying to constrain it to a pretty structure causes more problems than it fixes within the automation.</p>
@@ -1949,7 +1949,7 @@ If you are deploying to Azure, we strongly recommend it be &#8656; 4 chars, as A
 <div class="content">
 <pre class="highlight"><code class="language-yaml" data-lang="yaml">tags:
   owner: dchaffelson@cloudera.com
-  enddate: "01012022"</code></pre>
+  enddate: "01312022"</code></pre>
 </div>
 </div>
 <div class="admonitionblock important">
@@ -1960,6 +1960,18 @@ If you are deploying to Azure, we strongly recommend it be &#8656; 4 chars, as A
 </td>
 <td class="content">
 The two-space indent of the tag <code>key: value</code> pairs is critical for correct YAML structure
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+For backwards compatibility reasons, we give the example date above in American or 'Freedom' format of MMDDYYYY. We recommend most people use ISO8601 or YYYYMMDD format.
 </td>
 </tr>
 </table>
@@ -2192,7 +2204,7 @@ Putting the license file in <code>~/.cdp/</code> is a convenient convention, but
 name_prefix: cldr
 tags:
   owner: dchaffelson@cloudera.com
-  enddate: "01012022"
+  enddate: "01312022"
 infra_type: aws
 infra_region: us-east-1
 gcloud_credential_file: '~/.config/gcloud/mycreds.json'
@@ -2344,6 +2356,7 @@ license_file: "~/.cdp/my_cloudera_license.txt"</code></pre>
   aws:
     profile:
     region:
+    arn_partition:
     vpc:
       az_count:
       internet_gateway:
@@ -3201,12 +3214,12 @@ If you use a pre-defined Datahub Definition using the <code>definition</code> ke
 </div>
 </div>
 <div class="paragraph nav-footer">
-<p>← Previous: <a href="_goal_oriented_guides.html">Goal-oriented Guides</a> | ↑ Up: <a href="README.html">Documentation for Cloudera-Labs</a></p>
+<p>← Previous: <a href="_goal_oriented_guides.html">Goal-oriented Guides</a> | ↑ Up: <a href="index.html">Documentation for Cloudera-Labs</a></p>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-06 10:57:24 UTC
+Last updated 2022-07-01 09:52:07 UTC
 </div>
 </div>
 </body>
