@@ -27,3 +27,5 @@ include::content/training/main.adoc[]
 include::content/guides/main.adoc[]
 
 include::content/references/main.adoc[]
+
+include::content/troubleshooting/main.adoc[]

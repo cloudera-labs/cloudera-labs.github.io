@@ -1,0 +1,17 @@
+=== Cloud Credentials
+.403 error from AWS
+Could be a credential refreshing, retry to see if it’s isolated
+
+.Error like: Profile given for AWS was not found.  Please fix and retry.
+This looks to be caused when an underlying call uses authentication from boto, rather than boto3 - and boto doesn’t support the new access scheme. Find the failing Task and report it to us.
+
+.The SSO session associated with this profile has expired or is otherwise invalid
+You need to relogin
+
+.no valid credential sources for Terraform AWS Provider found
+Using Terraform for Cloudera Deploy, this typically means your SSO token has expired, relogin to continue
+
+.WSL2 - Browser does not launch
+The browser may not open during the aws configure sso command if you have the DISPLAY environment variable set in WSL2. This is likely to happen if you run Linux GUI applications in WSL and don't have a browser installed in the WSL distribution.
+
+The quick fix in this case is to unset DISPLAY and re-run the SSO configure command.

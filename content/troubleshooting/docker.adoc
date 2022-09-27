@@ -1,0 +1,26 @@
+=== Docker Usage
+.docker: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+
+You need to enable WSL integration in the Docker Desktop settings for Resources > WSL Integration
+
+.SSH_AUTH_SOCK is empty or not set, unable to proceed. Exiting
+
+Run the following command to activate the ssh-agent:
+[bash,source]
+----
+eval `ssh-agent -s`
+----
+
+If that command doesn't work, try
+[bash,source]
+----
+eval "$(ssh-agent)"
+----
+
+.docker: Error response from daemon: invalid mount config for type "bind": field Source must not be empty.
+
+Probably your SSH_AUTH_SOCK is not populated from the ssh-agent. Same fix as above.
+
+.The path /private/tmp/com.apple.launchd.[some random sting]/Listeners is not shared from the host and is not known to Docker.
+
+You need to add you /private directory to the file sharing in your Docker settings for Resources > File Sharing
