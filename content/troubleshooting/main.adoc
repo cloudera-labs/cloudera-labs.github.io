@@ -1,0 +1,9 @@
+== Operations & Troubleshooting
+
+include::ansible.adoc[]
+
+include::creds.adoc[]
+
+include::docker.adoc[]
+
+include::development.adoc[]

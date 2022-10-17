@@ -1,0 +1,12 @@
+=== Ansible vs cloudera.cluster
+
+.Can't detect the required Python library
+This is most commonly caused by having more than the usual number of versions of Python installed.
+
+Very possibly you've ended up with 2.7, 3.6 and 3.8, or something like that, and the library you are looking for is in the wrong version.
+Remove extraneous versions, figure out what is installing them and prevent it.
+
+.cannot dnf install with python2
+This usually happens when Ansible decides it simply must use /usr/bin/python even though a perfectly good python3 or other is preferred.
+
+Most commonly this is caused by legacy Ansible python version detection where it will *always* use /usr/bin/python if present. This is fixed by adding `ansible_python_interpreter=auto` to all your target hosts in your inventory, such as in the `[deployment:vars]` group.

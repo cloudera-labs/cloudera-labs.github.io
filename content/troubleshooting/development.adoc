@@ -1,0 +1,9 @@
+=== Code signing for Cloudera Labs
+
+.GPG Signing is failing for my git commits
+Could be lots of reasons, start by doing a commit on cmdline with `GIT_TRACE=1` set to see the specific error.
+
+A common cause is your GPG Key expiring, to fix this on OSX:
+. comment out no-tty in ~/.gnupg/gpg.conf
+. Follow https://stackoverflow.com/a/43728576/4717963[this process] on SO to reset your key expiry
+. Re-enable no-tty
