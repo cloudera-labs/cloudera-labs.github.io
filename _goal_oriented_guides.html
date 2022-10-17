@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.17">
+<meta name="generator" content="Asciidoctor 2.0.18">
 <title>Documentation for Cloudera-Labs</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -84,10 +84,10 @@ code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;
 ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
 ul,ol{margin-left:1.5em}
 ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
-ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
-ul.square{list-style-type:square}
 ul.circle{list-style-type:circle}
 ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
 ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
 dl dt{margin-bottom:.3125em;font-weight:bold}
 dl dd{margin-bottom:1.25em}
@@ -494,33 +494,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="_goal_oriented_guides.html#_troubleshooting">3.3. Troubleshooting</a>
+<li><a href="_goal_oriented_guides.html#cdPrivate">3.3. CDP Private Cloud Deployments</a>
 <ul class="sectlevel3">
-<li><a href="_goal_oriented_guides.html#_ansible_vs_cloudera_cluster">3.3.1. Ansible vs cloudera.cluster</a>
+<li><a href="_goal_oriented_guides.html#_ansible_controller_options">3.3.1. Ansible Controller options</a>
 </li>
-<li><a href="_goal_oriented_guides.html#_credentials">3.3.2. Credentials</a>
+<li><a href="_goal_oriented_guides.html#_inventories">3.3.2. Inventories</a>
 </li>
-<li><a href="_goal_oriented_guides.html#_general_troubleshooting">3.3.3. General Troubleshooting</a>
+<li><a href="_goal_oriented_guides.html#_process_overview">3.3.3. Process Overview</a>
+</li>
+<li><a href="_goal_oriented_guides.html#_executing_playbooks">3.3.4. Executing Playbooks</a>
 </li>
 </ul>
 </li>
-<li><a href="_goal_oriented_guides.html#cdPrivate">3.4. CDP Private Cloud Deployments</a>
-<ul class="sectlevel3">
-<li><a href="_goal_oriented_guides.html#_ansible_controller_options">3.4.1. Ansible Controller options</a>
-</li>
-<li><a href="_goal_oriented_guides.html#_inventories">3.4.2. Inventories</a>
-</li>
-<li><a href="_goal_oriented_guides.html#_process_overview">3.4.3. Process Overview</a>
-</li>
-<li><a href="_goal_oriented_guides.html#_executing_playbooks">3.4.4. Executing Playbooks</a>
-</li>
-</ul>
-</li>
-<li><a href="_goal_oriented_guides.html#Contributing">3.5. Contributing to these Docs</a>
+<li><a href="_goal_oriented_guides.html#Contributing">3.4. Contributing to these Docs</a>
 </li>
 </ul>
 </li>
 <li><a href="_information_oriented_references.html">4. Information-oriented References</a>
+</li>
+<li><a href="_operations_troubleshooting.html">5. Operations &amp; Troubleshooting</a>
 </li>
 </ul>
 </div>
@@ -2036,96 +2028,7 @@ You will likely have to re-login to SSO before each run
 </div>
 </div>
 <div class="sect2">
-<h3 id="_troubleshooting"><a class="anchor" href="#_troubleshooting"></a><a class="link" href="#_troubleshooting">3.3. Troubleshooting</a></h3>
-<div class="sect3">
-<h4 id="_ansible_vs_cloudera_cluster"><a class="anchor" href="#_ansible_vs_cloudera_cluster"></a><a class="link" href="#_ansible_vs_cloudera_cluster">3.3.1. Ansible vs cloudera.cluster</a></h4>
-<div class="paragraph">
-<div class="title">Can&#8217;t detect the required Python library</div>
-<p>This is most commonly caused by having more than the usual number of versions of Python installed.</p>
-</div>
-<div class="paragraph">
-<p>Very possibly you&#8217;ve ended up with 2.7, 3.6 and 3.8, or something like that, and the library you are looking for is in the wrong version.
-Remove extraneous versions, figure out what is installing them and prevent it.</p>
-</div>
-<div class="paragraph">
-<div class="title">cannot dnf install with python2</div>
-<p>This usually happens when Ansible decides it simply must use /usr/bin/python even though a perfectly good python3 or other is preferred.</p>
-</div>
-<div class="paragraph">
-<p>Most commonly this is caused by legacy Ansible python version detection where it will <strong>always</strong> use /usr/bin/python if present. This is fixed by adding <code>ansible_python_interpreter=auto</code> to all your target hosts in your inventory, such as in the <code>[deployment:vars]</code> group.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_credentials"><a class="anchor" href="#_credentials"></a><a class="link" href="#_credentials">3.3.2. Credentials</a></h4>
-<div class="paragraph">
-<div class="title">403 error from AWS</div>
-<p>Could be a credential refreshing, retry to see if it’s isolated</p>
-</div>
-<div class="paragraph">
-<div class="title">Error like: Profile given for AWS was not found.  Please fix and retry.</div>
-<p>This looks to be caused when an underlying call uses authentication from boto, rather than boto3 - and boto doesn’t support the new access scheme. Find the failing Task and report it to us.</p>
-</div>
-<div class="paragraph">
-<div class="title">The SSO session associated with this profile has expired or is otherwise invalid</div>
-<p>You need to relogin</p>
-</div>
-<div class="paragraph">
-<div class="title">no valid credential sources for Terraform AWS Provider found</div>
-<p>Using Terraform for Cloudera Deploy, this typically means your SSO token has expired, relogin to continue</p>
-</div>
-<div class="paragraph">
-<div class="title">WSL2 - Browser does not launch</div>
-<p>The browser may not open during the aws configure sso command if you have the DISPLAY environment variable set in WSL2. This is likely to happen if you run Linux GUI applications in WSL and don&#8217;t have a browser installed in the WSL distribution.</p>
-</div>
-<div class="paragraph">
-<p>The quick fix in this case is to unset DISPLAY and re-run the SSO configure command.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_general_troubleshooting"><a class="anchor" href="#_general_troubleshooting"></a><a class="link" href="#_general_troubleshooting">3.3.3. General Troubleshooting</a></h4>
-<div class="paragraph">
-<div class="title">docker: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?</div>
-<p>You need to enable WSL integration in the Docker Desktop settings for Resources &gt; WSL Integration</p>
-</div>
-<div class="paragraph">
-<div class="title">SSH_AUTH_SOCK is empty or not set, unable to proceed. Exiting</div>
-<p>Run the following command to activate the ssh-agent:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>eval `ssh-agent -s`</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If that command doesn&#8217;t work, try</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>eval "$(ssh-agent)"</pre>
-</div>
-</div>
-<div class="paragraph">
-<div class="title">docker: Error response from daemon: invalid mount config for type "bind": field Source must not be empty.</div>
-<p>Probably your SSH_AUTH_SOCK is not populated from the ssh-agent. Same fix as above.</p>
-</div>
-<div class="paragraph">
-<div class="title">The path /private/tmp/com.apple.launchd.[some random sting]/Listeners is not shared from the host and is not known to Docker.</div>
-<p>You need to add you /private directory to the file sharing in your Docker settings for Resources &gt; File Sharing</p>
-</div>
-<div class="paragraph">
-<div class="title">GPG Signing is failing for my git commits</div>
-<p>Could be lots of reasons, start by doing a commit on cmdline with <code>GIT_TRACE=1</code> set to see the specific error.</p>
-</div>
-<div class="paragraph">
-<p>A common cause is your GPG Key expiring, to fix this on OSX:
-. comment out no-tty in ~/.gnupg/gpg.conf
-. Follow <a href="https://stackoverflow.com/a/43728576/4717963">this process</a> on SO to reset your key expiry
-. Re-enable no-tty</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="cdPrivate"><a class="anchor" href="#cdPrivate"></a><a class="link" href="#cdPrivate">3.4. CDP Private Cloud Deployments</a></h3>
+<h3 id="cdPrivate"><a class="anchor" href="#cdPrivate"></a><a class="link" href="#cdPrivate">3.3. CDP Private Cloud Deployments</a></h3>
 <div class="paragraph">
 <p>CDP Base represents deployment of 'Traditional' clusters via Cloudera Manager, which you might think of historically as hadoop or big data clusters. In practice, there is an Ansible Collection called <code>cloudera.cluster</code> which is excellent at configuring Cloudera Manager across various versions of Linux regardless of whether that OS is running in Containers, Virtual Machines, Cloud Infra like EC2, or old school baremetal nodes.</p>
 </div>
@@ -2136,7 +2039,7 @@ Remove extraneous versions, figure out what is installing them and prevent it.</
 <p>The differences are that Cloudera.cluster has been built over many generations to support Cloudera Manager versions 5 to 7, and supports many legacy options and behaviors for user convenience. The result of this is that, while simple deployments are as simple as the more modern CDP Public Cloud, complex deployments will require a greater familiarity with Ansible and Cloudera Manager templates.</p>
 </div>
 <div class="sect3">
-<h4 id="_ansible_controller_options"><a class="anchor" href="#_ansible_controller_options"></a><a class="link" href="#_ansible_controller_options">3.4.1. Ansible Controller options</a></h4>
+<h4 id="_ansible_controller_options"><a class="anchor" href="#_ansible_controller_options"></a><a class="link" href="#_ansible_controller_options">3.3.1. Ansible Controller options</a></h4>
 <div class="paragraph">
 <p>We still strongly recommend that you use the cloudera-runner Docker Container shipped with Cloudera-Deploy as your Ansible controller for CDP Base deployments, because the consistency and logging is going to save you time and effort.</p>
 </div>
@@ -2160,7 +2063,7 @@ It is worth noting that the <code>admin_password</code> field from your Profile,
 </div>
 </div>
 <div class="sect3">
-<h4 id="_inventories"><a class="anchor" href="#_inventories"></a><a class="link" href="#_inventories">3.4.2. Inventories</a></h4>
+<h4 id="_inventories"><a class="anchor" href="#_inventories"></a><a class="link" href="#_inventories">3.3.2. Inventories</a></h4>
 <div class="paragraph">
 <p>An inventory file can be supplied using the traditional -i flag at runtime or by including either
 inventory_static.ini or inventory_template.ini in the definitions path.</p>
@@ -2211,7 +2114,7 @@ Do not use the <code>[all:vars]</code> group if you are using an independent Ans
 </div>
 </div>
 <div class="sect3">
-<h4 id="_process_overview"><a class="anchor" href="#_process_overview"></a><a class="link" href="#_process_overview">3.4.3. Process Overview</a></h4>
+<h4 id="_process_overview"><a class="anchor" href="#_process_overview"></a><a class="link" href="#_process_overview">3.3.3. Process Overview</a></h4>
 <div class="paragraph">
 <p>In this section we will walk through a typical deployment, commenting on options at various points</p>
 </div>
@@ -2318,7 +2221,7 @@ If you did not stop the container previously, quickstart.sh will ignore any argu
 </div>
 </div>
 <div class="sect3">
-<h4 id="_executing_playbooks"><a class="anchor" href="#_executing_playbooks"></a><a class="link" href="#_executing_playbooks">3.4.4. Executing Playbooks</a></h4>
+<h4 id="_executing_playbooks"><a class="anchor" href="#_executing_playbooks"></a><a class="link" href="#_executing_playbooks">3.3.4. Executing Playbooks</a></h4>
 <div class="paragraph">
 <p>To run the playbook, we use the <code>ansible-playbook</code> command. The entry point to the playbook is in main.yml in cloudera-deploy. With our mount point in /runner/project, the full path is <code>/runner/project/cloudera-deploy/main.yml</code>. This is passed as the first argument to ansible-playbook.</p>
 </div>
@@ -2485,7 +2388,7 @@ cldr base-v1.0.2 #&gt;</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="Contributing"><a class="anchor" href="#Contributing"></a><a class="link" href="#Contributing">3.5. Contributing to these Docs</a></h3>
+<h3 id="Contributing"><a class="anchor" href="#Contributing"></a><a class="link" href="#Contributing">3.4. Contributing to these Docs</a></h3>
 <div class="paragraph">
 <p>Contributions to improve the docs are welcomed at any time. <br>
 We encourage you to either directly create a PR for the changes, or open an Issue on Github.</p>
@@ -2531,7 +2434,7 @@ We encourage you to either directly create a PR for the changes, or open an Issu
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-01 09:52:07 UTC
+Last updated 2022-10-17 13:05:35 UTC
 </div>
 </div>
 </body>

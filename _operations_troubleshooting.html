@@ -440,55 +440,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
              .nav-footer{text-align: center; margin-top: auto;}
              .nav-footer > p > a {white-space: nowrap;}</style>
 </head>
-<body id="_introduction_and_user_orientation" class="book toc2 toc-left">
+<body id="_operations_troubleshooting" class="book toc2 toc-left">
 <div id="header">
 <h1>Documentation for Cloudera-Labs</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <p><span class="toc-root"><a href="index.html">Documentation for Cloudera-Labs</a></span></p><ul class="sectlevel1">
-<li><a href="_introduction_and_user_orientation.html"><span class="toc-current">1. Introduction and user-orientation</span></a>
-<ul class="sectlevel2">
-<li><a href="_introduction_and_user_orientation.html#cdIntroduction">1.1. Introduction</a>
-<ul class="sectlevel3">
-<li><a href="_introduction_and_user_orientation.html#_what_to_expect">1.1.1. What to Expect</a>
-</li>
-<li><a href="_introduction_and_user_orientation.html#_what_is_cloudera_ansible_foundry">1.1.2. What is Cloudera Ansible Foundry</a>
-</li>
-<li><a href="_introduction_and_user_orientation.html#_what_is_cloudera_deploy">1.1.3. What is Cloudera Deploy</a>
-</li>
-</ul>
-</li>
-<li><a href="_introduction_and_user_orientation.html#_licensing_warranties_and_restrictions">1.2. Licensing, Warranties and Restrictions</a>
-</li>
-<li><a href="_introduction_and_user_orientation.html#cdUseCases">1.3. Use Cases</a>
-<ul class="sectlevel3">
-<li><a href="_introduction_and_user_orientation.html#_simple_use_cases">1.3.1. Simple Use Cases</a>
-</li>
-<li><a href="_introduction_and_user_orientation.html#_intermediate_use_cases">1.3.2. Intermediate Use Cases</a>
-</li>
-</ul>
-</li>
-<li><a href="_introduction_and_user_orientation.html#cdComponents">1.4. Framework Components</a>
-<ul class="sectlevel3">
-<li><a href="_introduction_and_user_orientation.html#_cloudera_deploy">1.4.1. cloudera-deploy</a>
-</li>
-<li><a href="_introduction_and_user_orientation.html#_cldr_runner">1.4.2. cldr-runner</a>
-</li>
-<li><a href="_introduction_and_user_orientation.html#_cdpy">1.4.3. cdpy</a>
-</li>
-<li><a href="_introduction_and_user_orientation.html#_cloudera_ansible_collections">1.4.4. Cloudera Ansible Collections</a>
-</li>
-<li><a href="_introduction_and_user_orientation.html#_example_deployment_definitions">1.4.5. Example Deployment Definitions</a>
-</li>
-</ul>
-</li>
-<li><a href="_introduction_and_user_orientation.html#cdGettingStarted">1.5. Getting Started</a>
-<ul class="sectlevel3">
-<li><a href="_introduction_and_user_orientation.html#_personas">1.5.1. Personas</a>
-</li>
-</ul>
-</li>
-</ul>
+<li><a href="_introduction_and_user_orientation.html">1. Introduction and user-orientation</a>
 </li>
 <li><a href="_learning_oriented_training.html">2. Learning-oriented Training</a>
 </li>
@@ -496,329 +454,118 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="_information_oriented_references.html">4. Information-oriented References</a>
 </li>
-<li><a href="_operations_troubleshooting.html">5. Operations &amp; Troubleshooting</a>
+<li><a href="_operations_troubleshooting.html"><span class="toc-current">5. Operations &amp; Troubleshooting</span></a>
+<ul class="sectlevel2">
+<li><a href="_operations_troubleshooting.html#_ansible_vs_cloudera_cluster">5.1. Ansible vs cloudera.cluster</a>
+</li>
+<li><a href="_operations_troubleshooting.html#_cloud_credentials_2">5.2. Cloud Credentials</a>
+</li>
+<li><a href="_operations_troubleshooting.html#_docker_usage">5.3. Docker Usage</a>
+</li>
+<li><a href="_operations_troubleshooting.html#_code_signing_for_cloudera_labs">5.4. Code signing for Cloudera Labs</a>
+</li>
+</ul>
 </li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_introduction_and_user_orientation"><a class="anchor" href="#_introduction_and_user_orientation"></a><a class="link" href="#_introduction_and_user_orientation">1. Introduction and user-orientation</a></h2>
+<h2 id="_operations_troubleshooting"><a class="anchor" href="#_operations_troubleshooting"></a><a class="link" href="#_operations_troubleshooting">5. Operations &amp; Troubleshooting</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="cdIntroduction"><a class="anchor" href="#cdIntroduction"></a><a class="link" href="#cdIntroduction">1.1. Introduction</a></h3>
+<h3 id="_ansible_vs_cloudera_cluster"><a class="anchor" href="#_ansible_vs_cloudera_cluster"></a><a class="link" href="#_ansible_vs_cloudera_cluster">5.1. Ansible vs cloudera.cluster</a></h3>
 <div class="paragraph">
-<p><em>Ansible Automation for Cloudera Products</em> <br>
-<em>AKA: Cloudera Deploy | Cloudera AutoProv | Cloudera Ansible Foundry | Cloudera Playbooks</em></p>
-</div>
-<div class="sect3">
-<h4 id="_what_to_expect"><a class="anchor" href="#_what_to_expect"></a><a class="link" href="#_what_to_expect">1.1.1. What to Expect</a></h4>
-<div class="paragraph">
-<p>These docs are for new users and power users alike to leverage Cloudera&#8217;s Ansible implementation for deployment and automation of Cloudera Products within the wider Hybrid Data Cloud ecosystem.</p>
+<div class="title">Can&#8217;t detect the required Python library</div>
+<p>This is most commonly caused by having more than the usual number of versions of Python installed.</p>
 </div>
 <div class="paragraph">
-<p>It is generally broken into several sections:</p>
-</div>
-<div class="ulist">
-<div class="title">For all users:</div>
-<ul>
-<li>
-<p>These <a href="_introduction_and_user_orientation.html#cdIntroduction">introductory</a> notes to orient new users</p>
-</li>
-<li>
-<p>A discussion of <a href="_introduction_and_user_orientation.html#cdUseCases">Use Cases</a> that the Framework supports</p>
-</li>
-<li>
-<p>A <a href="_introduction_and_user_orientation.html#cdGettingStarted">Getting Started</a> guide based around user goals and skill levels</p>
-</li>
-<li>
-<p>An <a href="_information_oriented_references.html#cdDeployments">Overview</a> of preparing Definitions for Deployment</p>
-</li>
-</ul>
-</div>
-<div id="cdForDevelopers" class="ulist">
-<div class="title">For Developers:</div>
-<ul>
-<li>
-<p>A <a href="_information_oriented_references.html#cdHistory">History</a> and guiding principles</p>
-</li>
-<li>
-<p>A breakdown of Framework <a href="_introduction_and_user_orientation.html#cdComponents">Components</a></p>
-</li>
-<li>
-<p>An in-depth <a href="_goal_oriented_guides.html#cdDevelopersSetup">Setup Guide</a></p>
-</li>
-<li>
-<p>Logical breakdowns of key <a href="_information_oriented_references.html#cdWorkflows">Workflows</a> within the Playbooks</p>
-</li>
-<li>
-<p>A <a href="_information_oriented_references.html#cdSchemaReference">Reference</a> guide to all Definition options</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_what_is_cloudera_ansible_foundry"><a class="anchor" href="#_what_is_cloudera_ansible_foundry"></a><a class="link" href="#_what_is_cloudera_ansible_foundry">1.1.2. What is Cloudera Ansible Foundry</a></h4>
-<div class="paragraph">
-<p>This framework is generally called the Cloudera Ansible Foundry, and it wraps software dependencies, automation code, examples, and documentation into an integrated family.</p>
+<p>Very possibly you&#8217;ve ended up with 2.7, 3.6 and 3.8, or something like that, and the library you are looking for is in the wrong version.
+Remove extraneous versions, figure out what is installing them and prevent it.</p>
 </div>
 <div class="paragraph">
-<p>It further provides a consistent and portable toolkit for working in Python, Bash, Terraform, various CLIs, language clients, ad-hoc commands, and other commonly used tools in the Hybrid Cloud ecosystem.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_what_is_cloudera_deploy"><a class="anchor" href="#_what_is_cloudera_deploy"></a><a class="link" href="#_what_is_cloudera_deploy">1.1.3. What is Cloudera Deploy</a></h4>
-<div class="paragraph">
-<p>Cloudera Deploy is the name of the reference implementation in Ansible Playbooks for automating Cloudera Products.</p>
+<div class="title">cannot dnf install with python2</div>
+<p>This usually happens when Ansible decides it simply must use /usr/bin/python even though a perfectly good python3 or other is preferred.</p>
 </div>
 <div class="paragraph">
-<p>For most users, <a href="https://github.com/cloudera-labs/cloudera-deploy">Cloudera-Deploy</a> is the entrypoint and only component they need interact with, but underneath it there is an extensible framework of components for handling various scenarios for power-users.</p>
-</div>
-<div class="paragraph">
-<p>To that end, you can use Cloudera-Deploy itself directly, or use it as a starting point for your own implementation, or simply use the components within for your own purposes.</p>
-</div>
+<p>Most commonly this is caused by legacy Ansible python version detection where it will <strong>always</strong> use /usr/bin/python if present. This is fixed by adding <code>ansible_python_interpreter=auto</code> to all your target hosts in your inventory, such as in the <code>[deployment:vars]</code> group.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_licensing_warranties_and_restrictions"><a class="anchor" href="#_licensing_warranties_and_restrictions"></a><a class="link" href="#_licensing_warranties_and_restrictions">1.2. Licensing, Warranties and Restrictions</a></h3>
+<h3 id="_cloud_credentials_2"><a class="anchor" href="#_cloud_credentials_2"></a><a class="link" href="#_cloud_credentials_2">5.2. Cloud Credentials</a></h3>
 <div class="paragraph">
-<p>Cloudera-Deploy and the underlying framework are all open source, mostly under the Apache 2.0 license or compatible licenses.</p>
+<div class="title">403 error from AWS</div>
+<p>Could be a credential refreshing, retry to see if it’s isolated</p>
 </div>
 <div class="paragraph">
-<p>The software is provided without Warranty or Guarantee of Support - it therefore differs from, and is complementary to, Software provided by Cloudera or other Vendors under commercial agreements.</p>
+<div class="title">Error like: Profile given for AWS was not found.  Please fix and retry.</div>
+<p>This looks to be caused when an underlying call uses authentication from boto, rather than boto3 - and boto doesn’t support the new access scheme. Find the failing Task and report it to us.</p>
 </div>
 <div class="paragraph">
-<p>However, while we do not guarantee support, Cloudera use this software along with our partners and customers, and thus strive to maintain it to the same high standards of our other products in the best spirit of community and partnership.</p>
+<div class="title">The SSO session associated with this profile has expired or is otherwise invalid</div>
+<p>You need to relogin</p>
+</div>
+<div class="paragraph">
+<div class="title">no valid credential sources for Terraform AWS Provider found</div>
+<p>Using Terraform for Cloudera Deploy, this typically means your SSO token has expired, relogin to continue</p>
+</div>
+<div class="paragraph">
+<div class="title">WSL2 - Browser does not launch</div>
+<p>The browser may not open during the aws configure sso command if you have the DISPLAY environment variable set in WSL2. This is likely to happen if you run Linux GUI applications in WSL and don&#8217;t have a browser installed in the WSL distribution.</p>
+</div>
+<div class="paragraph">
+<p>The quick fix in this case is to unset DISPLAY and re-run the SSO configure command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="cdUseCases"><a class="anchor" href="#cdUseCases"></a><a class="link" href="#cdUseCases">1.3. Use Cases</a></h3>
-<div class="sect3">
-<h4 id="_simple_use_cases"><a class="anchor" href="#_simple_use_cases"></a><a class="link" href="#_simple_use_cases">1.3.1. Simple Use Cases</a></h4>
+<h3 id="_docker_usage"><a class="anchor" href="#_docker_usage"></a><a class="link" href="#_docker_usage">5.3. Docker Usage</a></h3>
 <div class="paragraph">
-<p>These simple use cases can be run from the Cloudera-Deploy Quickstart without requiring additional skills in advance beyond use of cmdline, docker, and cloud credentials</p>
+<div class="title">docker: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?</div>
+<p>You need to enable WSL integration in the Docker Desktop settings for Resources &gt; WSL Integration</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Deploy Reference Architectures for CDP Public on AWS, GCP, or Azure</p>
-</li>
-<li>
-<p>Deploying from OSX, Windows10, or Linux machines</p>
-</li>
-<li>
-<p>Leverage Ansible or Terraform for Cloud Infrastructure</p>
-</li>
-<li>
-<p>Deploy CDP Base clusters to most supported OS targets</p>
-</li>
-<li>
-<p>Deploy Applications on various CDP implementations</p>
-</li>
-<li>
-<p>Teardown and other lifecycling tasks</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_intermediate_use_cases"><a class="anchor" href="#_intermediate_use_cases"></a><a class="link" href="#_intermediate_use_cases">1.3.2. Intermediate Use Cases</a></h4>
 <div class="paragraph">
-<p>In these cases, we expect that you are a more experienced DevOps user with particular goals in mind and at a good working knowledge of the technologies in play</p>
+<div class="title">SSH_AUTH_SOCK is empty or not set, unable to proceed. Exiting</div>
+<p>Run the following command to activate the ssh-agent:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Deploy CDP Private Cloud on a Kubernetes Variant</p>
-</li>
-<li>
-<p>Deploy Applications across multiple CDP Hybrid Cloud Environments</p>
-</li>
-<li>
-<p>Integrate a 3rd party component into the Framework</p>
-</li>
-<li>
-<p>Create a mirror of archive.cloudera.com or custom offline repo of parcels</p>
-</li>
-<li>
-<p>Use the framework within Ansible Tower, or via CICD integration</p>
-</li>
-<li>
-<p>Handle partial deployments or partial teardowns using run levels</p>
-</li>
-<li>
-<p>Automate deployment to adopted infrastructure</p>
-</li>
-<li>
-<p>Extend the Ansible Collections to handle additional cases</p>
-</li>
-<li>
-<p>Force remove cloud infrastructure within a given namespace</p>
-</li>
-</ul>
+<div class="listingblock">
+<div class="content">
+<pre>eval `ssh-agent -s`</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>If that command doesn&#8217;t work, try</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>eval "$(ssh-agent)"</pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">docker: Error response from daemon: invalid mount config for type "bind": field Source must not be empty.</div>
+<p>Probably your SSH_AUTH_SOCK is not populated from the ssh-agent. Same fix as above.</p>
+</div>
+<div class="paragraph">
+<div class="title">The path /private/tmp/com.apple.launchd.[some random sting]/Listeners is not shared from the host and is not known to Docker.</div>
+<p>You need to add you /private directory to the file sharing in your Docker settings for Resources &gt; File Sharing</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="cdComponents"><a class="anchor" href="#cdComponents"></a><a class="link" href="#cdComponents">1.4. Framework Components</a></h3>
+<h3 id="_code_signing_for_cloudera_labs"><a class="anchor" href="#_code_signing_for_cloudera_labs"></a><a class="link" href="#_code_signing_for_cloudera_labs">5.4. Code signing for Cloudera Labs</a></h3>
 <div class="paragraph">
-<p>Here we will give more of a sense of what is in each of the repositories within the framework</p>
-</div>
-<div class="sect3">
-<h4 id="_cloudera_deploy"><a class="anchor" href="#_cloudera_deploy"></a><a class="link" href="#_cloudera_deploy">1.4.1. cloudera-deploy</a></h4>
-<div class="paragraph">
-<p>This is the standard entry-point for most users, most of the time.</p>
+<div class="title">GPG Signing is failing for my git commits</div>
+<p>Could be lots of reasons, start by doing a commit on cmdline with <code>GIT_TRACE=1</code> set to see the specific error.</p>
 </div>
 <div class="paragraph">
-<p>It contains the main Ansible Playbooks, default User Profile, Definition handling, and Run initialization.</p>
-</div>
-<div class="paragraph">
-<p>It also usually contains other ease-of-use features for new users, like the current Dynamic Inventory implementation, until such time as they are matured into their own separate feature.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_cldr_runner"><a class="anchor" href="#_cldr_runner"></a><a class="link" href="#_cldr_runner">1.4.2. cldr-runner</a></h4>
-<div class="paragraph">
-<p>A Container image as a common Runner with all dependencies suitable for use locally, with Ansible Tower, against an IDE, or various other circumstances</p>
-</div>
-<div class="paragraph">
-<p>It is based in a centos8 image produced by the Ansible Community, known as 'Ansible Runner'. We then resolve the difficulty of conflicting dependencies to layer in the various clients, python modules, utilities, and other bits and pieces that make it a useful shell or remote execution environment for working with Hybrid Cloud.</p>
-</div>
-<div class="paragraph">
-<p>You can also use this as a template for your own specific implementation, but we ask Users to adopt it as their default if they don&#8217;t have a reason not too for the simple benefit of not reinventing something that works well and reduces the burden of reproducing errors.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_cdpy"><a class="anchor" href="#_cdpy"></a><a class="link" href="#_cdpy">1.4.3. cdpy</a></h4>
-<div class="paragraph">
-<p>A Python client for the CDP Control Plane, both Public and Private.</p>
-</div>
-<div class="paragraph">
-<p>This is essentially a convenience wrapper for CDPCLI, which itself is based in a fork of AWSCLI and fully written in Python.</p>
-</div>
-<div class="paragraph">
-<p>cdpy contains a large number of helper methods which are reused throughout the <code>cloudera.cloud</code> modules, as well as well-structured Ansible-friendly error handling.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_cloudera_ansible_collections"><a class="anchor" href="#_cloudera_ansible_collections"></a><a class="link" href="#_cloudera_ansible_collections">1.4.4. Cloudera Ansible Collections</a></h4>
-<div class="paragraph">
-<div class="title">cloudera.cloud</div>
-<p>This Collection is primarily un-opinionated modules for the CDP Control Plane in Public or Private Cloud.</p>
-</div>
-<div class="paragraph">
-<p>The point of keeping the modules unopinionated and solely covering the CDP Control Plane interactions is to minimise the dependencies and attack surface for users who aren&#8217;t using Public Cloud.</p>
-</div>
-<div class="paragraph">
-<div class="title">cloudera.exe</div>
-<p>This Collection is highly opinionated Roles for most task sequences around achieving some run-level or dependency satisfaction.</p>
-</div>
-<div class="paragraph">
-<p>The concept of run-level deployments in <code>cloudera.exe</code> is explained later in the Architecture.</p>
-</div>
-<div class="paragraph">
-<div class="title">cloudera.cluster</div>
-<p>This Collection is focused on Deploying &amp; Configuring Clusters via Cloudera Manager - usually traditional Cloudera clusters.</p>
-</div>
-<div class="paragraph">
-<p>It is backwards compatible with the Cloudera Playbooks written for Ansible &lt;2.9, whereas this Collection is for &gt;2.10</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_example_deployment_definitions"><a class="anchor" href="#_example_deployment_definitions"></a><a class="link" href="#_example_deployment_definitions">1.4.5. Example Deployment Definitions</a></h4>
-<div class="paragraph">
-<p>Example Definitions for use with Cloudera-Deploy, presently bundled <a href="https://github.com/cloudera-labs/cloudera-deploy/tree/main/examples">here</a></p>
-</div>
-<div class="paragraph">
-<p>We plan on publishing more examples soon.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="cdGettingStarted"><a class="anchor" href="#cdGettingStarted"></a><a class="link" href="#cdGettingStarted">1.5. Getting Started</a></h3>
-<div class="paragraph">
-<p>Cloudera-Deploy is designed for use both internally and externally by Cloudera Engineering, Testing, Education, Support, Field, Sales, Marketing and other staff, but also the same code and artefacts are used by Customers, Partners, Resellers, and our Community.</p>
-</div>
-<div class="paragraph">
-<p>As such, we have set it up so a new user can get started in as little as 3 steps, while not limiting Power Users from leveraging the full suite of capabilities.</p>
-</div>
-<div class="paragraph">
-<div class="title">Prerequisites</div>
-<p>While Cloudera-Deploy aims to remove as many complexities for the new user, there are still a few dependencies like authentication and runtimes required for it to work. The quickstart guide contains extra prerequisite steps that you are advised to follow if this is your first time using new credentials or tools such as AWS CLI.</p>
-</div>
-<div class="paragraph">
-<div class="title">Understanding the Skills Gap</div>
-<p>We recognise there is a significant jump in the skills and knowledge required to go from using the pre-configured push-button examples in the 'Simple' section to more complex cases the 'Intermediate' section and beyond.</p>
-</div>
-<div class="paragraph">
-<p>There are several good introductory courses online for Ansible and Terraform use in Hybrid Cloud Architectures. Cloudera also offers a training program tailored to these tools to interested Customers and Partners.</p>
-</div>
-<div class="paragraph">
-<p>You can also reach out to your Cloudera contacts for assistance in these deployments at any time.</p>
-</div>
-<div class="sect3">
-<h4 id="_personas"><a class="anchor" href="#_personas"></a><a class="link" href="#_personas">1.5.1. Personas</a></h4>
-<div class="sect4">
-<h5 id="_new_to_automation"><a class="anchor" href="#_new_to_automation"></a><a class="link" href="#_new_to_automation">New to Automation</a></h5>
-<div class="paragraph">
-<p>Using Cloudera-Deploy without modifying it only requires a couple of steps and some cloud credentials. It is designed to be extremely accessible to new users.</p>
-</div>
-<div class="paragraph">
-<p>If this is your first time, we suggest running the Cloudera-Deploy <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/readme.adoc">Quickstart</a> using one of the prebuilt Definitions before diving in further.</p>
-</div>
-<div class="paragraph">
-<div class="title">Skills required:</div>
-<p>commandline, editing text files, cloud credential management</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_create_your_own_definitions"><a class="anchor" href="#_create_your_own_definitions"></a><a class="link" href="#_create_your_own_definitions">Create your own Definitions</a></h5>
-<div class="paragraph">
-<p>Crafting Definitions is just editing text files to declare what the Deployment should look like, and allowing Cloudera-Deploy to interpret and produce what you have described. The files are written in YAML with a simple structure.</p>
-</div>
-<div class="paragraph">
-<p>Once you have worked out how to run a basic Deployment via the Quickstart, you may wish to customise it to meet your requirements. A summary of editing Definitions is included in the Getting Started sections for <a href="_information_oriented_references.html#cdCDPPublic">CDP Public Cloud</a> and <a href="_goal_oriented_guides.html#cdPrivate">CDP Private Cloud</a>.</p>
-</div>
-<div class="paragraph">
-<p>There is also a detailed explanation of how Definitions work in the <a href="_information_oriented_references.html#cdDeployments">Deployments Reference</a> in the Developer&#8217;s Guide, though reading the rest of these Docs and examining the other Definition examples may also be helpful.</p>
-</div>
-<div class="paragraph">
-<div class="title">Additional skills required:</div>
-<p>YAML editing and formatting, Cloudera-Deploy Definitions management</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_create_your_own_playbooks"><a class="anchor" href="#_create_your_own_playbooks"></a><a class="link" href="#_create_your_own_playbooks">Create your own Playbooks</a></h5>
-<div class="paragraph">
-<p>Creating your own Playbooks requires a working understanding of authoring Ansible tasks and how to use Modules and Roles from Ansible Collections. It goes a step beyond editing YAML declarations into understanding the sequences of steps necessary to achieve a given outcome in a hopefully robust manner.</p>
-</div>
-<div class="paragraph">
-<p>We will soon be publishing more examples of Application Playbooks on top of Cloudera-Deploy, but you can review the Playbooks already included as a starting point.</p>
-</div>
-<div class="paragraph">
-<p>We suggest you start by fully reading this documentation including the <a href="_introduction_and_user_orientation.html#cdForDevelopers">Developer</a> sections and how the existing <a href="_information_oriented_references.html#cdWorkflows">Workflows</a> are structured.</p>
-</div>
-<div class="paragraph">
-<div class="title">Additional skills required:</div>
-<p>Ansible Task development, use of Ansible Collections, advanced use of Ansible Tags, experience with multi-tier automation abstractions</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_extend_the_framework"><a class="anchor" href="#_extend_the_framework"></a><a class="link" href="#_extend_the_framework">Extend the Framework</a></h5>
-<div class="paragraph">
-<p>If you are familiar with Ansible and Cloudera Products, and are considering adding Ansible modules or Roles to the Collections, then you may wish to follow the <a href="_goal_oriented_guides.html#cdDevelopersSetup">Developer Setup</a>  to fork and checkout the Framework components so you can make (and perhaps contribute back) your own changes.</p>
-</div>
-<div class="paragraph">
-<div class="title">Additional skills required:</div>
-<p>Python development, Ansible test frameworks and debugging, Docker Containers</p>
-</div>
-</div>
+<p>A common cause is your GPG Key expiring, to fix this on OSX:
+. comment out no-tty in ~/.gnupg/gpg.conf
+. Follow <a href="https://stackoverflow.com/a/43728576/4717963">this process</a> on SO to reset your key expiry
+. Re-enable no-tty</p>
 </div>
 </div>
 </div>
 </div>
 <div class="paragraph nav-footer">
-<p>↑ Up: <a href="index.html">Documentation for Cloudera-Labs</a> | Next: <a href="_learning_oriented_training.html">Learning-oriented Training</a> →</p>
+<p>← Previous: <a href="_information_oriented_references.html">Information-oriented References</a> | ↑ Up: <a href="index.html">Documentation for Cloudera-Labs</a></p>
 </div>
 </div>
 <div id="footer">
