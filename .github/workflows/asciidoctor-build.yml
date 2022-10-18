@@ -18,7 +18,7 @@ jobs:
 
     - name: Get build container
       id: adocbuild
-      uses: avattathil/asciidoctor-action@master
+      uses: tonynv/asciidoctor-action@master
       with:
            program: "gem install asciidoctor-multipage; asciidoctor -r asciidoctor-multipage -b multipage_html5 -D docs index.adoc  -o index.html"
 #          program: "asciidoctor -D docs --backend=html5 -o index.html README.adoc"
